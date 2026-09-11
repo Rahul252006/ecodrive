@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Setup — EcoDrive Onboarding</title>
+  <meta name="description" content="Set up your vehicle garage on EcoDrive.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="container" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 7.5rem 1.5rem 5rem 1.5rem; min-height: 100vh;">
+    <div class="card-specular" style="width:100%; max-width:640px; padding:2.5rem 2.75rem; background:linear-gradient(180deg, #141420 0%, #08080e 100%); box-shadow:0 25px 70px rgba(0,0,0,0.9); border-radius:24px; overflow:visible;">
+      <div class="hero-pill-badge" style="margin-bottom:1.25rem; font-size:0.75rem; letter-spacing:0.07em; padding:0.4rem 0.95rem; font-weight:600;">
+        STEP 1 OF 1 &bull; VEHICLE GARAGE SETUP
+      </div>
+      <h2 style="font-size:1.85rem; margin-bottom:0.45rem; color:#ffffff; font-weight:700; letter-spacing:-0.02em;">Configure Your First Vehicle</h2>
+      <p style="margin-bottom:1.85rem; font-size:0.9rem; color:#94a3b8; line-height:1.6;">
+        EcoDrive uses your vehicle powertrain and EPA baseline specifications to calculate deterministic fuel/energy costs and verified CO2 emission models.
+      </p>
+
+      <div id="error-alert" class="toast toast-error" style="display:none; margin-bottom:1.5rem; position:static; width:100%; padding:0.75rem 1.15rem; font-size:0.86rem;"></div>
+
+      <form id="onboarding-form">
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label for="goal" style="font-size:0.86rem; margin-bottom:0.45rem; font-weight:500; color:#cbd5e1; display:block;">Primary Driving Goal</label>
+          <select id="goal" class="form-control" style="padding:0.8rem 1.1rem; font-size:0.92rem; width:100%;">
+            <option value="save_fuel">Save Fuel / Minimize Commuting Expenses</option>
+            <option value="reduce_emissions">Reduce Carbon Footprint &amp; CO2</option>
+            <option value="improve_skills">Improve Driving Smoothness &amp; Regenerative Braking</option>
+          </select>
+        </div>
+
+        <div class="grid-2" style="gap:1.25rem; margin-bottom:1.25rem;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="make" style="font-size:0.86rem; margin-bottom:0.45rem; font-weight:500; color:#cbd5e1; display:block;">Make</label>
+            <input type="text" id="make" class="form-control" placeholder="Toyota / Tesla / Honda" required style="padding:0.8rem 1.1rem; font-size:0.92rem; width:100%;">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="model" style="font-size:0.86rem; margin-bottom:0.45rem; font-weight:500; color:#cbd5e1; display:block;">Model</label>
+            <input type="text" id="model" class="form-control" placeholder="Prius / Model 3 / Civic" required style="padding:0.8rem 1.1rem; font-size:0.92rem; width:100%;">
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:1.25rem; margin-bottom:1.85rem;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="year" style="font-size:0.86rem; margin-bottom:0.45rem; font-weight:500; color:#cbd5e1; display:block;">Year</label>
+            <input type="number" id="year" class="form-control" value="2023" min="1950" max="2027" required style="padding:0.8rem 1.1rem; font-size:0.92rem; width:100%;">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="fuelType" style="font-size:0.86rem; margin-bottom:0.45rem; font-weight:500; color:#cbd5e1; display:block;">Fuel / Powertrain Type</label>
+            <select id="fuelType" class="form-control" required style="padding:0.8rem 1.1rem; font-size:0.92rem; width:100%;">
+              <option value="ICE">ICE (Internal Combustion Engine)</option>
+              <option value="HEV" selected>HEV (Hybrid Electric Vehicle)</option>
+              <option value="PHEV">PHEV (Plug-in Hybrid)</option>
+              <option value="EV">EV (Pure Electric Vehicle)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:1.5rem; padding-bottom:0.25rem;">
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%; padding:0.95rem 1.75rem; font-size:0.98rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:0.6rem; cursor:pointer; white-space:nowrap;">
+            <span>Complete Setup &amp; Enter Dashboard</span>
+            <span style="font-size:1.15rem; line-height:1; display:inline-block;">&rarr;</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/onboarding.js"></script>
+</body>
+</html>

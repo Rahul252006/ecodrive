@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "public": true,
+  "cleanUrls": true,
+  "outputDirectory": "frontend",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ]
+}

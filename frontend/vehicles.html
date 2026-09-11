@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Garage — EcoDrive</title>
+  <meta name="description" content="Manage your vehicle garage and specs on EcoDrive.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="container app-content-offset">
+    <div class="page-header">
+      <div class="page-title-group">
+        <h1>Vehicle Garage</h1>
+        <p>Manage your fleet, powertrain specs, and efficiency baselines.</p>
+      </div>
+    </div>
+
+    <!-- Add Vehicle Form Card -->
+    <div class="card card-specular" style="margin-bottom:2.25rem; padding:1.75rem; background:#0b0b12;">
+      <h3 style="margin-bottom:1.25rem; font-size:1.25rem;">+ Add New Vehicle</h3>
+      <div id="vehicle-error-alert" class="toast toast-error" style="display:none; margin-bottom:1rem; position:static; width:100%;"></div>
+      
+      <form id="add-vehicle-form">
+        <div class="grid-4" style="gap:1rem;">
+          <div class="form-group">
+            <label for="make">Make</label>
+            <input type="text" id="make" class="form-control" placeholder="Toyota" required>
+          </div>
+          <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" id="model" class="form-control" placeholder="Prius" required>
+          </div>
+          <div class="form-group">
+            <label for="year">Year</label>
+            <input type="number" id="year" class="form-control" value="2023" required>
+          </div>
+          <div class="form-group">
+            <label for="fuelType">Powertrain Type</label>
+            <select id="fuelType" class="form-control" required>
+              <option value="ICE">ICE (Gasoline/Diesel)</option>
+              <option value="HEV" selected>HEV (Hybrid)</option>
+              <option value="PHEV">PHEV (Plug-in Hybrid)</option>
+              <option value="EV">EV (Electric Vehicle)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3" style="gap:1rem;">
+          <div class="form-group">
+            <label for="fuelEfficiency">Fuel Spec (L/100km)</label>
+            <input type="number" step="0.1" id="fuelEfficiency" class="form-control" placeholder="4.5" value="4.5">
+          </div>
+          <div class="form-group">
+            <label for="energyEfficiency">EV Spec (kWh/100km)</label>
+            <input type="number" step="0.1" id="energyEfficiency" class="form-control" placeholder="18.0" value="18.0">
+          </div>
+          <div class="form-group" style="display:flex; align-items:flex-end;">
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.75rem;">+ Save Vehicle to Garage</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Vehicles List Grid -->
+    <div class="grid-3" id="vehicles-list">
+      <!-- Rendered dynamically by vehicles.js -->
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/vehicles.js"></script>
+</body>
+</html>

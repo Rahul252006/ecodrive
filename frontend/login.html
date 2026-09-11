@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — EcoDrive</title>
+  <meta name="description" content="Sign in to your EcoDrive control plane.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="auth-page-body">
+  <header class="auth-header">
+    <a href="index.html" class="auth-back-btn" title="Back to EcoDrive">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </a>
+  </header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <!-- Left Side Product Manifesto Panel (Ref: Image 1) -->
+      <div class="auth-side-panel">
+        <div class="auth-side-top">
+          <div class="auth-side-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            ECODRIVE CONTROL PLANE
+          </div>
+          <div class="auth-side-lock">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="auth-side-bottom">
+          <h3>The Real-Time Intelligence Layer for Sustainable Driving.</h3>
+          <p>
+            Vehicle telemetry records how trips are driven. EcoDrive evaluates whether energy efficiency, aggressive braking, and idle waste are optimized under scikit-learn ML models.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Side Auth Form (Ref: Image 1) -->
+      <div class="auth-form-panel">
+        <h2 style="font-size:1.85rem; margin-bottom:0.45rem; color:#ffffff;">Welcome Back</h2>
+        <p style="font-size:0.92rem; color:#94a3b8; margin-bottom:1.4rem;">Enter your credentials to access your control plane.</p>
+
+        <div id="login-alert" class="toast toast-error" style="display:none; margin-bottom:1.25rem; position:static; width:100%; padding:0.75rem 1.15rem; font-size:0.86rem;"></div>
+
+        <form id="login-form">
+          <div class="form-group" style="margin-bottom:1.15rem;">
+            <label for="email" style="font-size:0.86rem; margin-bottom:0.35rem;">Work / Personal Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your email" required autocomplete="email">
+          </div>
+
+          <div class="form-group" style="margin-bottom:1.15rem;">
+            <div class="form-label-row" style="margin-bottom:0.35rem;">
+              <label for="password" style="font-size:0.86rem;">Password</label>
+              <a href="#" onclick="alert('Password reset link sent to demo registered email.'); return false;" style="font-size:0.82rem; color:#64748b;">Forgot?</a>
+            </div>
+            <div style="position:relative;">
+              <input type="password" id="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password" style="padding-right:2.5rem;">
+              <button type="button" onclick="togglePasswordVisibility()" style="position:absolute; right:0.9rem; top:50%; transform:translateY(-50%); background:none; border:none; color:#64748b; cursor:pointer; display:flex; align-items:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; font-size:0.88rem;">
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; color:#cbd5e1;">
+              <input type="checkbox" id="remember-me" checked style="accent-color:var(--primary); cursor:pointer;">
+              Remember me
+            </label>
+            <a href="#" onclick="alert('Reset link available via admin.'); return false;" style="color:#64748b; font-size:0.84rem;">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-auth-primary" style="margin-bottom:0.75rem;">Sign in</button>
+          
+          <button type="button" class="btn-demo-autofill" onclick="autofillDemo()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Auto-Fill Demo Credentials (demo@ecodrive.com)
+          </button>
+        </form>
+
+        <div style="display:flex; align-items:center; gap:0.85rem; margin:1.25rem 0; color:#475569; font-size:0.82rem;">
+          <div style="flex:1; height:1px; background:#1e1e2d;"></div>
+          <span>or continue with</span>
+          <div style="flex:1; height:1px; background:#1e1e2d;"></div>
+        </div>
+
+        <button type="button" class="btn-sso" onclick="demoSocialLogin('Google')" style="width:100%; padding:0.8rem 1.25rem; justify-content:center; gap:0.75rem; font-size:0.92rem; font-weight:600; margin-bottom:0;" title="Sign in with Google">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <p style="text-align:center; margin-top:1.35rem; font-size:0.88rem; color:#94a3b8; margin-bottom:0;">
+          Don't have an account yet? <a href="register.html" style="color:#ffffff; font-weight:700; text-decoration:underline;">Create one</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Guards.requireGuest();
+
+      const form = document.getElementById('login-form');
+      const alert = document.getElementById('login-alert');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        alert.style.display = 'none';
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+          await Auth.login(email, password);
+          Utils.showToast('Authentication successful!');
+          window.location.href = 'dashboard.html';
+        } catch (err) {
+          alert.textContent = err.message;
+          alert.style.display = 'flex';
+        }
+      });
+    });
+
+    function autofillDemo() {
+      document.getElementById('email').value = 'demo@ecodrive.com';
+      document.getElementById('password').value = 'Password123!';
+      Utils.showToast('Demo credentials autofilled');
+    }
+
+    function togglePasswordVisibility() {
+      const pwd = document.getElementById('password');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    function demoSocialLogin(provider) {
+      document.getElementById('email').value = 'demo@ecodrive.com';
+      document.getElementById('password').value = 'Password123!';
+      Utils.showToast(`Signing in with ${provider} (Demo SSO)...`);
+      setTimeout(() => {
+        document.getElementById('login-form').dispatchEvent(new Event('submit'));
+      }, 400);
+    }
+  </script>
+</body>
+</html>

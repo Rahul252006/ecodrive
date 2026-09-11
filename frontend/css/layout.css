@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Layout System — Floating Blur-40px Navbar, Obsidian Containers & Spacing
+   ========================================================================== */
+
+/* ---------------- Redefined Floating Pill Navbar ---------------- */
+.navbar-wrapper {
+  position: fixed;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding: 0 1.25rem;
+  pointer-events: none;
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+/* Landing Page Scroll Fade-In State */
+.navbar-landing {
+  opacity: 0;
+  transform: translateY(-16px);
+  pointer-events: none;
+}
+
+.navbar-landing.navbar-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Internal Pages Always Visible */
+.navbar-always-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.navbar-pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  background: rgba(10, 10, 16, 0.72);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(139, 92, 246, 0.08);
+  border-radius: var(--radius-full);
+  padding: 0.95rem 1.4rem 0.95rem 1.85rem;
+  max-width: 1080px;
+  width: 100%;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+}
+
+.nav-brand-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 0.92rem;
+  transition: color var(--transition-fast);
+  padding: 0.2rem 0;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #ffffff;
+}
+
+.nav-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 0.95rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.85rem;
+  color: #f1f5f9;
+}
+
+/* ---------------- Main Layout Containers ---------------- */
+.container {
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 1.75rem;
+  flex: 1;
+}
+
+.container-narrow {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 1.75rem;
+  flex: 1;
+}
+
+/* Top offset for internal pages with fixed navbar */
+.app-content-offset {
+  padding-top: 8.5rem !important;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.75rem;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.page-title-group h1 {
+  margin-bottom: 0.25rem;
+}
+
+.page-title-group p {
+  margin-bottom: 0;
+  font-size: 0.98rem;
+}
+
+/* ---------------- Grids ---------------- */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.35rem;
+}
+
+/* ---------------- Section Dividers & Tags ---------------- */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.section-title {
+  font-size: clamp(2.3rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  max-width: 720px;
+  margin-bottom: 3.5rem;
+  line-height: 1.65;
+}
+
+/* ---------------- Redesigned Modern Obsidian Footer ---------------- */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #09090f 0%, #050508 100%);
+  padding: 5rem 1.75rem 2.5rem;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1.5px;
+  background: var(--specular-line);
+  pointer-events: none;
+}
+
+.footer-container {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.footer-brand-col p {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #94a3b8;
+  max-width: 340px;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.footer-col-title {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.footer-col-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.footer-col-links a {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  display: inline-block;
+}
+
+.footer-col-links a:hover {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-copy {
+  color: #64748b;
+  font-size: 0.86rem;
+  margin: 0;
+}
+
+.footer-pill-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #34d399;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.footer-dot-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}

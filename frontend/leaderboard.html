@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Leaderboard — EcoDrive</title>
+  <meta name="description" content="Privacy-safe driver rankings for Eco Scores and CO2 savings.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="container app-content-offset">
+    <div class="page-header">
+      <div class="page-title-group">
+        <h1>Driver Leaderboard</h1>
+        <p>Compare efficiency scores, XP, and carbon savings in privacy-safe rankings.</p>
+      </div>
+      <div>
+        <select id="leaderboard-category" class="form-control" style="min-width:240px;">
+          <option value="eco_score">Weekly Eco Score</option>
+          <option value="co2_reduction">CO2 Saved (kg)</option>
+          <option value="xp">Total Challenge XP</option>
+          <option value="streak">Active Streak</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card card-specular">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Driver</th>
+              <th>Level</th>
+              <th>Avg Eco Score</th>
+              <th>CO2 Saved</th>
+              <th>XP Earned</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-tbody">
+            <!-- Rendered dynamically by leaderboard.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/leaderboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "best_model": "Linear Regression",
+  "features": [
+    "distance_km",
+    "duration_min",
+    "avg_speed_kmh",
+    "max_speed_kmh",
+    "idle_ratio",
+    "accel_per_km",
+    "brake_per_km",
+    "elevation_gain_m",
+    "temp_deviation_c"
+  ],
+  "metrics": {
+    "Linear Regression": {
+      "MAE": 1.9163,
+      "RMSE": 2.2646,
+      "R2": 0.7768
+    },
+    "Random Forest Regressor": {
+      "MAE": 1.8917,
+      "RMSE": 2.3441,
+      "R2": 0.7608
+    },
+    "Gradient Boosting Regressor": {
+      "MAE": 1.9526,
+      "RMSE": 2.4604,
+      "R2": 0.7365
+    }
+  },
+  "r2_score": 0.7767542403788035
+}

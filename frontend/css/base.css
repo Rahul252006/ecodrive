@@ -1,0 +1,187 @@
+/* Base & Typography System - Powered by Manrope + Inter + Roboto Mono */
+html {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main);
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Headings with White-to-Grey Gradient (Top to Bottom) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-bright);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.2;
+  padding-bottom: 0.1em;
+  background: var(--heading-white-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: var(--heading-white-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  line-height: 1.68;
+  font-weight: 400;
+}
+
+a {
+  color: #c084fc;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+code, pre, .mono-metric {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--border-color);
+  margin: 2rem 0;
+}
+
+/* Container Highlight Utilities */
+.specular-border {
+  position: relative;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.specular-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1.5px;
+  background: var(--specular-line);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Exact Violet + Dark Bottom Gradient (Ref: Image 2) */
+.gradient-text-purple {
+  background: var(--hero-purple-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block;
+  line-height: 1.15;
+  padding-bottom: 0.1em;
+}
+
+/* White + Light Grey (Bottom) Gradient */
+.gradient-text-white {
+  background: var(--heading-white-gradient) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block;
+  line-height: 1.22;
+  padding-bottom: 0.12em;
+}
+
+/* ==========================================================================
+   Page Entrance & Staggered In-Animations (Fade In from Bottom in place)
+   ========================================================================== */
+@keyframes pageFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main, .container, .auth-wrapper {
+  animation: pageFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-title {
+  animation: pageFadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.hero-subtitle {
+  animation: pageFadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+}
+
+.hero-section .btn {
+  animation: pageFadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+.console-window {
+  animation: pageFadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+.auth-card {
+  animation: pageFadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-header {
+  animation: pageFadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.grid-2 > .card, .grid-3 > .card, .grid-4 > .card {
+  animation: pageFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.grid-3 > .card:nth-child(1), .grid-4 > .card:nth-child(1) { animation-delay: 0.06s; }
+.grid-3 > .card:nth-child(2), .grid-4 > .card:nth-child(2) { animation-delay: 0.12s; }
+.grid-3 > .card:nth-child(3), .grid-4 > .card:nth-child(3) { animation-delay: 0.18s; }
+.grid-4 > .card:nth-child(4) { animation-delay: 0.24s; }

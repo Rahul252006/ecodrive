@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log New Trip — EcoDrive</title>
+  <meta name="description" content="Log a driving trip for ML inference and Eco Scoring.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <main class="container app-content-offset" style="max-width:760px;">
+    <div class="page-header">
+      <div class="page-title-group">
+        <h1>Log Driving Trip</h1>
+        <p>Record trip telemetry for real scikit-learn ML inference and 6-metric scoring.</p>
+      </div>
+      <a href="trips.html" class="btn btn-secondary">&larr; Back to Trips</a>
+    </div>
+
+    <div class="card-specular" style="padding:2.25rem; background:#0b0b12;">
+      <div id="error-alert" class="toast toast-error" style="display:none; margin-bottom:1.5rem; position:static; width:100%;"></div>
+
+      <form id="add-trip-form">
+        <div class="form-group">
+          <label for="vehicleId">Vehicle Used</label>
+          <select id="vehicleId" class="form-control" required></select>
+        </div>
+
+        <div class="grid-2" style="gap:1rem;">
+          <div class="form-group">
+            <label for="startLocation">Start Location / Origin</label>
+            <input type="text" id="startLocation" class="form-control" placeholder="e.g. Home" value="Home">
+          </div>
+          <div class="form-group">
+            <label for="endLocation">Destination</label>
+            <input type="text" id="endLocation" class="form-control" placeholder="e.g. Downtown Office" value="Downtown Office">
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:1rem;">
+          <div class="form-group">
+            <label for="distanceKm">Distance (km) *</label>
+            <input type="number" step="0.1" id="distanceKm" class="form-control" placeholder="25.5" required min="0.1">
+          </div>
+          <div class="form-group">
+            <label for="durationMin">Duration (minutes) *</label>
+            <input type="number" id="durationMin" class="form-control" placeholder="30" required min="1">
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:1rem;">
+          <div class="form-group">
+            <label for="avgSpeedKmh">Average Speed (km/h)</label>
+            <input type="number" step="0.1" id="avgSpeedKmh" class="form-control" placeholder="50">
+          </div>
+          <div class="form-group">
+            <label for="maxSpeedKmh">Maximum Speed (km/h)</label>
+            <input type="number" step="0.1" id="maxSpeedKmh" class="form-control" placeholder="80">
+          </div>
+        </div>
+
+        <div class="grid-3" style="gap:1rem;">
+          <div class="form-group">
+            <label for="idleTimeMin">Idle Time (mins)</label>
+            <input type="number" id="idleTimeMin" class="form-control" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label for="hardAccelerationCount">Hard Accels</label>
+            <input type="number" id="hardAccelerationCount" class="form-control" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label for="hardBrakingCount">Hard Brakes</label>
+            <input type="number" id="hardBrakingCount" class="form-control" value="0" min="0">
+          </div>
+        </div>
+
+        <div class="grid-2" style="gap:1rem; background:#07070c; border:1px solid rgba(255,255,255,0.06); padding:1.25rem; border-radius:14px; margin-bottom:1.5rem;">
+          <div class="form-group" style="margin:0;">
+            <label for="fuelConsumedL">Fuel Consumed (L) <span style="font-size:0.75rem; color:#64748b;">(ICE/HEV)</span></label>
+            <input type="number" step="0.01" id="fuelConsumedL" class="form-control" placeholder="Auto-estimate if blank">
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label for="energyConsumedKwh">Energy Consumed (kWh) <span style="font-size:0.75rem; color:#64748b;">(EV)</span></label>
+            <input type="number" step="0.01" id="energyConsumedKwh" class="form-control" placeholder="Auto-estimate if blank">
+          </div>
+        </div>
+
+        <div class="form-group" style="display:none;">
+          <input type="datetime-local" id="tripDate">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+          Run ML Inference &amp; Save Trip &rarr;
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/guards.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/add-trip.js"></script>
+</body>
+</html>

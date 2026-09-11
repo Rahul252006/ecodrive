@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Pitch Black & Obsidian Grey Minimal Palette */
+  --bg-main: #060608;
+  --bg-surface: #0a0a0f;
+  --bg-card: #0d0d14;
+  --bg-card-hover: #12121b;
+  --bg-card-inner: #08080c;
+  --bg-input: #0a0a10;
+  --bg-input-focus: #0f0f18;
+  
+  /* Specular Borders & Outlines */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-color: #1a1a26;
+  --border-color-hover: #2a2a3c;
+  --border-glow: rgba(139, 92, 246, 0.35);
+
+  /* Subtle, Minimal Violet Accent */
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-light: rgba(139, 92, 246, 0.08);
+  --primary-glow: rgba(139, 92, 246, 0.4);
+
+  /* Rich White-to-Grey Heading Gradient (Stronger Grey Contrast) */
+  --heading-white-gradient: linear-gradient(180deg, #ffffff 0%, #cbd5e1 30%, #64748b 70%, #334155 100%);
+  --hero-purple-gradient: linear-gradient(180deg, #d8b4fe 0%, #a855f7 35%, #7c3aed 70%, #3b0764 100%);
+  --btn-primary-gradient: linear-gradient(180deg, #9d65ff 0%, #8b5cf6 35%, #7c3aed 80%, #6d28d9 100%);
+  --specular-line: linear-gradient(90deg, transparent 0%, rgba(168, 85, 247, 0) 5%, rgba(168, 85, 247, 0.4) 25%, rgba(216, 180, 254, 0.95) 50%, rgba(168, 85, 247, 0.4) 75%, rgba(168, 85, 247, 0) 95%, transparent 100%);
+
+  /* Neutrals */
+  --text-main: #f1f5f9;
+  --text-bright: #ffffff;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --text-disabled: #475569;
+
+  /* Status Colors */
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.1);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.1);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.1);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 36px -4px rgba(0, 0, 0, 0.8);
+  --shadow-glow: 0 0 24px rgba(139, 92, 246, 0.25);
+  
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Typography Pairing */
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

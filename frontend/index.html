@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoDrive — Consumer Driving Intelligence Platform</title>
+  <meta name="description" content="Drive better. Spend less. Emit less. The AI-powered consumer driving intelligence platform.">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <!-- Hero Section (Ref: Image 2) -->
+  <section class="container hero-section" style="display:flex; flex-direction:column; align-items:center; text-align:center; padding-top:7.5rem; padding-bottom:6rem;">
+    <!-- Pill badge (Ref: Image 2) -->
+    <div class="hero-pill-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span>ML intelligence engineered for everyday driving</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="gradient-text-white">Smart Driving Intelligence.</span><br>
+      <span class="gradient-text-purple">Engineered for Every Trip.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Transform vehicle telemetry into actionable efficiency metrics, real-time ML fuel predictions, and carbon savings.
+    </p>
+
+    <div style="display:flex; gap:1.25rem; flex-wrap:wrap; justify-content:center; margin: 0 auto;">
+      <a href="register.html" class="btn btn-primary btn-lg">Get started free &rarr;</a>
+      <a href="#features" class="btn btn-secondary btn-lg">See how it works</a>
+    </div>
+
+    <!-- Interactive Live Preview Console (Ref: Image 2) -->
+    <div class="console-window" id="features" style="font-family: var(--font-heading);">
+      <div class="console-header">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div class="console-dots">
+            <div class="console-dot"></div>
+            <div class="console-dot"></div>
+            <div class="console-dot"></div>
+          </div>
+          <span style="font-size:0.9rem; font-weight:700; color:#f1f5f9; margin-left:0.5rem; font-family:var(--font-heading);">EcoDrive Console</span>
+          <span class="badge" style="background:rgba(255,255,255,0.06); color:#cbd5e1; border:1px solid rgba(255,255,255,0.12); font-size:0.75rem; padding:0.2rem 0.65rem; font-family:var(--font-heading); font-weight:600;">v1.0 Live</span>
+        </div>
+        <div class="console-tabs">
+          <button class="console-tab active" onclick="switchConsoleTab(0, this)">Trip Telemetry</button>
+          <button class="console-tab" onclick="switchConsoleTab(1, this)">ML Diagnostics</button>
+          <button class="console-tab" onclick="switchConsoleTab(2, this)">Live Ingestion</button>
+        </div>
+      </div>
+
+      <div class="console-body" id="console-tab-content">
+        <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:2rem; align-items:center;">
+          <div>
+            <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:#94a3b8; font-weight:700; margin-bottom:0.75rem; font-family:var(--font-heading);">
+              DIRECT TELEMETRY STREAM
+            </div>
+            <div style="background:#07070b; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:1.4rem; font-family:var(--font-heading); font-size:0.92rem; color:#e2e8f0; line-height:1.8;">
+              <span style="color:#64748b; font-size:0.85rem;">// Commute: Downtown &rarr; Tech Park</span><br>
+              <span style="color:#c084fc; font-weight:600;">Vehicle:</span> Toyota Prius (HEV)<br>
+              <span style="color:#c084fc; font-weight:600;">Distance:</span> 18.4 km &bull; <span style="color:#c084fc; font-weight:600;">Duration:</span> 26.5 min<br>
+              <span style="color:#c084fc; font-weight:600;">Avg Speed:</span> 41.7 km/h &bull; <span style="color:#c084fc; font-weight:600;">Idle:</span> 2.1 min<br>
+              <span style="color:#c084fc; font-weight:600;">Hard Accels:</span> 0 &bull; <span style="color:#c084fc; font-weight:600;">Hard Brakes:</span> 1
+            </div>
+          </div>
+
+          <div style="background:#0e0e16; border:1px solid rgba(139,92,246,0.25); border-radius:18px; padding:1.6rem; position:relative; box-shadow:0 0 25px rgba(139,92,246,0.12); font-family:var(--font-heading);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.1rem;">
+              <span style="font-size:0.82rem; font-weight:700; color:#c084fc; text-transform:uppercase; letter-spacing:0.06em;">Real-Time Score</span>
+              <span class="badge badge-excellent" style="font-family:var(--font-heading); font-weight:700;">92/100 &bull; Excellent</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.1rem;">
+              <div>
+                <div style="font-size:0.8rem; color:#64748b; font-weight:500;">ML Predicted Fuel</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#ffffff; font-family:var(--font-heading);">0.81 L</div>
+              </div>
+              <div>
+                <div style="font-size:0.8rem; color:#64748b; font-weight:500;">Actual Consumed</div>
+                <div style="font-size:1.4rem; font-weight:800; color:#34d399; font-family:var(--font-heading);">0.74 L <span style="font-size:0.8rem; color:#34d399; font-weight:600;">(-8.6%)</span></div>
+              </div>
+            </div>
+            <div style="font-size:0.86rem; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.85rem; font-family:var(--font-body); line-height:1.55;">
+              <strong style="color:#fbbf24; font-family:var(--font-heading);">Coaching Insight:</strong> Smooth acceleration saved ~0.07L of fuel compared to the scikit-learn regression baseline.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: The Problem & The Core Realization (Ref: Image 3) -->
+  <section class="container" style="padding-top:4rem; padding-bottom:5.5rem;">
+    <div style="max-width:1080px; margin:0 auto;">
+      <span class="section-tag">THE PROBLEM</span>
+      <h2 class="section-title">
+        <span class="gradient-text-white">Vehicles produce tons of telemetry.</span><br>
+        <span style="color:#64748b;">Extracting actionable efficiency is still your manual job.</span>
+      </h2>
+      <p style="font-size:1.15rem; line-height:1.75; color:#94a3b8; margin-bottom:1.5rem;">
+        You already drive every single week: commuting to work, highway travel, suburban shopping, and city stop-and-go.
+      </p>
+      <p style="font-size:1.15rem; line-height:1.75; color:#94a3b8; margin-bottom:2.75rem;">
+        Yet standard car dashboard gauges only present generic retroactive MPG numbers. You never know if your acceleration was aggressive, how much fuel was wasted while idling at signals, or whether your hybrid battery regeneration was optimized.
+      </p>
+
+      <div class="problem-card">
+        <div style="font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#c084fc; margin-bottom:0.75rem;">
+          THE CORE REALIZATION
+        </div>
+        <p style="font-size:1.3rem; font-weight:600; color:#f8fafc; margin-bottom:0; line-height:1.55; font-family:var(--font-heading);">
+          &ldquo;You should be able to understand the exact fuel and carbon emission impact of every acceleration and idle second with automated Machine Learning baselines.&rdquo;
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Six-Factor Deterministic Eco Scoring Engine -->
+  <section class="container" id="scoring" style="padding-top:4rem; padding-bottom:5.5rem;">
+    <div style="text-align:center; margin-bottom:3.5rem;">
+      <span class="section-tag">CANONICAL ALGORITHM</span>
+      <h2 class="section-title">
+        <span class="gradient-text-white">Deterministic 6-Factor Eco Scoring</span>
+      </h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Every trip is audited against mathematical penalization weights that reward smooth driving and penalize energy waste.
+      </p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:2rem;">
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 25%</div>
+        <h3 style="margin-bottom:0.5rem;">Acceleration Smoothness</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Penalizes sudden throttle spikes (&gt;3.0 m/s&sup2;). Gradual acceleration reduces fuel burn by up to 20% in combustion engines.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 20%</div>
+        <h3 style="margin-bottom:0.5rem;">Braking Smoothness</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Evaluates kinetic energy dissipation. For hybrids and EVs, early and smooth deceleration maximizes regenerative recapture.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 15%</div>
+        <h3 style="margin-bottom:0.5rem;">Idle Minimization</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Identifies zero-speed engine operation. Idling consumes 0.6 to 1.0 L/hour of fuel with zero distance gained.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 15%</div>
+        <h3 style="margin-bottom:0.5rem;">Speed Consistency</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Computes coefficient of velocity variance. Steady cruising avoids repetitive accelerating cycles that spike consumption.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 15%</div>
+        <h3 style="margin-bottom:0.5rem;">Powertrain Efficiency</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Compares observed L/100km or kWh/100km with manufacturer EPA rating specifications across ICE, HEV, PHEV, and EV.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <div style="font-size:0.76rem; font-weight:800; color:#c084fc; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem;">WEIGHT: 10%</div>
+        <h3 style="margin-bottom:0.5rem;">Route Directness</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Considers detour overhead and average velocity stability to identify optimal navigation corridors.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Machine Learning Model & VED Ingestion Pipeline -->
+  <section class="container" id="ml-model" style="padding-top:4rem; padding-bottom:5.5rem;">
+    <div style="max-width:1020px; margin:0 auto;">
+      <div class="card-specular" style="padding:3rem; background:#0a0a10;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.75rem;">
+          <div class="hero-pill-badge" style="margin-bottom:0; padding:0.4rem 1rem; font-size:0.84rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Trained Regression Baseline
+          </div>
+          <div style="font-family:var(--font-mono); font-size:0.82rem; color:#64748b;">
+            eco_driving_model.joblib &bull; R&sup2; = 0.7768 &bull; MAE = 1.916 L
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:2.5rem; align-items:center;">
+          <div>
+            <h3 style="font-size:2rem; font-weight:800; line-height:1.2; margin-bottom:1rem; color:#ffffff;">
+              Trained on 800 VED Vehicle Trips. Not Arbitrary Rules.
+            </h3>
+            <p style="font-size:1.05rem; line-height:1.7; color:#94a3b8; margin-bottom:1.75rem;">
+              Our exploratory data science notebook evaluated OLS Linear Regression, Random Forest, and Gradient Boosting Regressors across distance, speed profiles, ambient temperature, elevation, and aggressive event density.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:0.65rem;">
+              <span class="pill-tag">Engineered Idle Ratio</span>
+              <span class="pill-tag">Kinetic Aggressiveness Index</span>
+              <span class="pill-tag">Live Node.js Ingestion</span>
+              <span class="pill-tag">Provenance Auditing</span>
+            </div>
+          </div>
+
+          <div style="background:#07070c; border:1px solid rgba(255,255,255,0.06); border-radius:18px; padding:1.75rem; font-family:var(--font-mono); font-size:0.85rem; color:#cbd5e1; line-height:1.7;">
+            <span style="color:#64748b;"># Model Evaluation Summary</span><br>
+            <span style="color:#c084fc;">Dataset:</span> Vehicle Energy Dataset (VED)<br>
+            <span style="color:#c084fc;">Features:</span> distance_km, duration_min, avg_speed_kmh, idle_ratio, accel_density, brake_density, kinetic_aggressiveness_idx<br>
+            <span style="color:#34d399;">Artifact:</span> backend/ml/eco_driving_model.joblib<br>
+            <span style="color:#34d399;">Inference Time:</span> &lt; 35ms per trip
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Provenance & Multi-Powertrain Carbon Accounting -->
+  <section class="container" id="provenance" style="padding-top:3rem; padding-bottom:5.5rem;">
+    <div style="text-align:center; margin-bottom:3.5rem;">
+      <span class="section-tag">CARBON PROVENANCE</span>
+      <h2 class="section-title">
+        <span class="gradient-text-white">Transparent Emissions Accounting</span>
+      </h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Every carbon metric in EcoDrive carries clear provenance labeling so drivers and fleet operators know exactly where numbers originate.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card card-specular">
+        <span class="pill-tag" style="margin-bottom:1rem;">OBSERVED DATA</span>
+        <h3>Direct Measurements</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Raw odometer mileage, trip duration, GPS velocity timestamps, and hardware-reported idling intervals.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <span class="pill-tag" style="margin-bottom:1rem;">DERIVED METRICS</span>
+        <h3>Formula Computations</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          Mathematical Eco Scores (0&ndash;100), fuel/electricity price expenditures, and acceleration event densities.
+        </p>
+      </div>
+
+      <div class="card card-specular">
+        <span class="pill-tag" style="margin-bottom:1rem;">ESTIMATED PROVENANCE</span>
+        <h3>Standard Emission Factors</h3>
+        <p style="font-size:0.92rem; color:#94a3b8; margin:0;">
+          2.31 kg CO&sub2;/L for gasoline fuels and 0.40 kg CO&sub2;/kWh regional grid intensity for Electric Vehicles.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: FAQ Accordion (Smooth Dropdown Animation) (Ref: Image 5) -->
+  <section class="container" id="faq" style="padding-top:3rem; padding-bottom:6rem;">
+    <div style="text-align:center; margin-bottom:3.5rem;">
+      <span class="section-tag">GOT QUESTIONS?</span>
+      <h2 class="section-title">
+        <span class="gradient-text-white">Frequently Asked Questions</span>
+      </h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>How does EcoDrive differ from standard car dashboard trip computers?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Standard car dashboards only display average MPG or L/100km retrospectively without actionable context. EcoDrive audits your driving style using a 6-metric deterministic formula and benchmarks each trip against a trained scikit-learn regression model to calculate exact fuel and cost deviations.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Where does the Machine Learning model get its training data?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            The model is trained on 800 real-world telemetry records from the Vehicle Energy Dataset (VED). It evaluates Gradient Boosting and Linear Regression models serialized into a production <code>.joblib</code> artifact, taking into account trip distance, duration, idle ratios, speed variance, and aggressive driving events.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>How are CO2 emissions calculated for Electric Vehicles (EVs)?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            While EVs produce zero tailpipe emissions, grid electricity generation has a carbon footprint. EcoDrive calculates EV emissions at 0.40 kg CO2/kWh based on national grid averages, accompanied by transparent <em>Estimated</em> provenance labeling.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Do I need special OBD-II hardware or dongles?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            No proprietary hardware is required. You can log trip odometer and duration metrics directly from your smartphone or dashboard, and EcoDrive automatically executes full calculation services and ML inference.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>How is my trip location and privacy protected?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            EcoDrive enforces privacy-by-design. Leaderboards aggregate scores and CO2 savings using display names or anonymous driver IDs. Specific route coordinates and addresses are never shared with other users.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Can I manage multiple vehicles in my garage?</span>
+          <div class="faq-chevron">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Yes! You can add ICE vehicles, hybrids (HEV), plug-in hybrids (PHEV), and pure EVs to your garage. Consumption formulas adapt automatically to each vehicle's powertrain specifications and fuel/electricity pricing.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA Section -->
+  <section class="container" style="padding-bottom:6rem;">
+    <div class="card-specular" style="padding:3.5rem 2.5rem; text-align:center; background:#0c0c14;">
+      <h2 style="font-size:2.4rem; margin-bottom:1rem;">
+        <span class="gradient-text-white">Start Optimizing Your Commute Today.</span>
+      </h2>
+      <p style="font-size:1.15rem; max-width:620px; margin:0 auto 2rem; color:#94a3b8;">
+        Join thousands of drivers reducing fuel expenses, cutting carbon emissions, and unlocking eco-driving achievements.
+      </p>
+      <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="register.html" class="btn btn-primary btn-lg">Create Free Driver Account &rarr;</a>
+        <a href="login.html" class="btn btn-secondary btn-lg">Sign In to Cockpit</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-container"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Components.renderNavbar('', true);
+      Components.renderFooter();
+    });
+
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      item.classList.toggle('open');
+    }
+
+    function switchConsoleTab(idx, btn) {
+      document.querySelectorAll('.console-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const content = document.getElementById('console-tab-content');
+      if (idx === 0) {
+        content.innerHTML = `
+          <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:2rem; align-items:center;">
+            <div>
+              <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:#94a3b8; font-weight:700; margin-bottom:0.75rem; font-family:var(--font-heading);">
+                DIRECT TELEMETRY STREAM
+              </div>
+              <div style="background:#07070b; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:1.4rem; font-family:var(--font-heading); font-size:0.92rem; color:#e2e8f0; line-height:1.8;">
+                <span style="color:#64748b; font-size:0.85rem;">// Commute: Downtown &rarr; Tech Park</span><br>
+                <span style="color:#c084fc; font-weight:600;">Vehicle:</span> Toyota Prius (HEV)<br>
+                <span style="color:#c084fc; font-weight:600;">Distance:</span> 18.4 km &bull; <span style="color:#c084fc; font-weight:600;">Duration:</span> 26.5 min<br>
+                <span style="color:#c084fc; font-weight:600;">Avg Speed:</span> 41.7 km/h &bull; <span style="color:#c084fc; font-weight:600;">Idle:</span> 2.1 min<br>
+                <span style="color:#c084fc; font-weight:600;">Hard Accels:</span> 0 &bull; <span style="color:#c084fc; font-weight:600;">Hard Brakes:</span> 1
+              </div>
+            </div>
+            <div style="background:#0e0e16; border:1px solid rgba(139,92,246,0.25); border-radius:18px; padding:1.6rem; position:relative; box-shadow:0 0 25px rgba(139,92,246,0.12); font-family:var(--font-heading);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.1rem;">
+                <span style="font-size:0.82rem; font-weight:700; color:#c084fc; text-transform:uppercase; letter-spacing:0.06em;">Real-Time Score</span>
+                <span class="badge badge-excellent" style="font-family:var(--font-heading); font-weight:700;">92/100 &bull; Excellent</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.1rem;">
+                <div>
+                  <div style="font-size:0.8rem; color:#64748b; font-weight:500;">ML Predicted Fuel</div>
+                  <div style="font-size:1.4rem; font-weight:800; color:#ffffff; font-family:var(--font-heading);">0.81 L</div>
+                </div>
+                <div>
+                  <div style="font-size:0.8rem; color:#64748b; font-weight:500;">Actual Consumed</div>
+                  <div style="font-size:1.4rem; font-weight:800; color:#34d399; font-family:var(--font-heading);">0.74 L <span style="font-size:0.8rem; color:#34d399; font-weight:600;">(-8.6%)</span></div>
+                </div>
+              </div>
+              <div style="font-size:0.86rem; color:#94a3b8; border-top:1px solid rgba(255,255,255,0.06); padding-top:0.85rem; font-family:var(--font-body); line-height:1.55;">
+                <strong style="color:#fbbf24; font-family:var(--font-heading);">Coaching Insight:</strong> Smooth acceleration saved ~0.07L of fuel compared to the scikit-learn regression baseline.
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (idx === 1) {
+        content.innerHTML = `
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; font-family:var(--font-heading);">
+            <div style="background:#07070b; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:1.35rem; font-size:0.92rem;">
+              <div style="font-weight:700; color:#c084fc; margin-bottom:0.6rem; font-family:var(--font-heading);">ML Model Architecture</div>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0.75rem;">Algorithm: Gradient Boosting &amp; OLS Linear Regressor</p>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0.75rem;">Test R² Score: <strong style="color:#34d399;">0.7768</strong></p>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0;">Mean Absolute Error: <strong style="color:#34d399;">1.916 L</strong></p>
+            </div>
+            <div style="background:#07070b; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:1.35rem; font-size:0.92rem;">
+              <div style="font-weight:700; color:#c084fc; margin-bottom:0.6rem; font-family:var(--font-heading);">Engineered Features</div>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0.5rem;">&bull; Idle Ratio (idle_min / duration_min)</p>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0.5rem;">&bull; Accel / Brake Density per 10 km</p>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:0;">&bull; Kinetic Aggressiveness Index</p>
+            </div>
+          </div>
+        `;
+      } else {
+        content.innerHTML = `
+          <div style="background:#07070b; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:1.4rem; font-family:var(--font-heading); font-size:0.92rem; color:#34d399; line-height:1.75;">
+            <div style="color:#94a3b8; font-size:0.82rem; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.06em;">LIVE INGESTION PIPELINE</div>
+            [HTTP POST] /api/trips &rarr; 201 Created<br>
+            [ML Ingestion] Spawning Python 3.11 predict.py &bull; eco_driving_model.joblib<br>
+            [Calculated] Eco Score: 92 | Fuel Cost: $1.15 | CO2: 1.71 kg<br>
+            [Gamification] +50 XP Awarded &bull; Eco Warrior Streak Active
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
