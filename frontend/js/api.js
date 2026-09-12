@@ -42,7 +42,19 @@ const API = {
         headers
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        if (!response.ok) {
+          const err = new Error(`Backend server returned ${response.status} (${response.statusText || 'Not Found'}). Please verify your Render backend URL.`);
+          err.status = response.status;
+          throw err;
+        }
+        data = { message: text };
+      }
 
       if (!response.ok) {
         const errorMsg = data.error?.message || 'An error occurred while processing your request.';
@@ -55,7 +67,7 @@ const API = {
       return data;
     } catch (err) {
       if (!err.status && err.message === 'Failed to fetch') {
-        err.message = 'Unable to connect to the EcoDrive server. Please check your network connection.';
+        err.message = 'Unable to connect to the EcoDrive server. Please check your network connection or Render backend URL.';
       }
       throw err;
     } finally {
