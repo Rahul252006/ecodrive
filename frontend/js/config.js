@@ -15,8 +15,8 @@ const CONFIG = {
     if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
       return 'http://localhost:5000/api';
     }
-    // 4. Production default (uses relative /api which proxies to Render via Vercel rewrites)
-    return '/api';
+    // 4. Production default (live Render backend)
+    return 'https://ecodrive-l1rx.onrender.com/api';
   })()
 };
 
