@@ -17,13 +17,9 @@ const Utils = {
     });
   },
 
-  formatCurrency(amount, fuelL = 0) {
+  formatCurrency(amount) {
     if (amount === null || amount === undefined || isNaN(amount)) return '₹0.00';
-    let val = Number(amount);
-    // Auto-heal legacy USD values (e.g. $13.50 calculated at $1.50/L) to Indian Rupees (₹102.00/L)
-    if (val > 0 && val < 25 && (fuelL >= 0.5 || val === 13.5 || val === 1.5 || val === 4.5)) {
-      val = val * (102.0 / 1.50);
-    }
+    const val = Number(amount);
     return '₹' + val.toLocaleString('en-IN', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2

@@ -7,7 +7,7 @@ async function getDashboard(req, res, next) {
     const userId = req.user.id;
     const user = await User.findById(userId).select('-passwordHash').lean();
     const vehicles = await Vehicle.find({ userId }).lean();
-    const trips = await Trip.find({ userId }).sort({ tripDate: -1 }).lean();
+    const trips = await Trip.find({ userId }).populate('vehicleId', 'make model year fuelType').sort({ tripDate: -1 }).lean();
 
     if (trips.length === 0) {
       return res.json({
@@ -47,14 +47,7 @@ async function getDashboard(req, res, next) {
 
     const totalTrips = trips.length;
     const totalDistanceKm = Number(trips.reduce((acc, t) => acc + (t.distanceKm || 0), 0).toFixed(1));
-    const totalCost = Number(trips.reduce((acc, t) => {
-      let cost = Number(t.fuelCost) || 0;
-      // Auto-heal legacy USD-calculated trips (< ₹25 with measurable fuel or distance) to proper Indian Rupees (₹)
-      if (cost > 0 && cost < 25 && ((t.fuelConsumedL && t.fuelConsumedL >= 0.5) || (t.distanceKm && t.distanceKm >= 5))) {
-        cost = cost * (102.0 / 1.50);
-      }
-      return acc + cost;
-    }, 0).toFixed(2));
+    const totalCost = Number(trips.reduce((acc, t) => acc + (Number(t.fuelCost) || 0), 0).toFixed(2));
     const totalCo2Kg = Number(trips.reduce((acc, t) => acc + (t.co2EmissionsKg || 0), 0).toFixed(2));
     const totalFuelL = Number(trips.reduce((acc, t) => acc + (t.fuelConsumedL || 0), 0).toFixed(1));
     const totalEnergyKwh = Number(trips.reduce((acc, t) => acc + (t.energyConsumedKwh || 0), 0).toFixed(1));
@@ -62,12 +55,12 @@ async function getDashboard(req, res, next) {
     const avgEcoScore = Math.round(trips.reduce((acc, t) => acc + t.ecoScore, 0) / totalTrips);
 
     const avgBreakdown = {
-      acceleration: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.acceleration || 80), 0) / totalTrips),
-      braking: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.braking || 80), 0) / totalTrips),
-      idle: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.idle || 80), 0) / totalTrips),
-      speedConsistency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.speedConsistency || 80), 0) / totalTrips),
-      efficiency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.efficiency || 80), 0) / totalTrips),
-      routeEfficiency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.routeEfficiency || 80), 0) / totalTrips)
+      acceleration: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.acceleration !== undefined ? t.scoreBreakdown.acceleration : 80), 0) / totalTrips),
+      braking: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.braking !== undefined ? t.scoreBreakdown.braking : 80), 0) / totalTrips),
+      idle: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.idle !== undefined ? t.scoreBreakdown.idle : 80), 0) / totalTrips),
+      speedConsistency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.speedConsistency !== undefined ? t.scoreBreakdown.speedConsistency : 80), 0) / totalTrips),
+      efficiency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.efficiency !== undefined ? t.scoreBreakdown.efficiency : 80), 0) / totalTrips),
+      routeEfficiency: Math.round(trips.reduce((acc, t) => acc + (t.scoreBreakdown?.routeEfficiency !== undefined ? t.scoreBreakdown.routeEfficiency : 80), 0) / totalTrips)
     };
 
     let category = 'Good';

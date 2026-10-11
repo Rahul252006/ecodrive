@@ -71,9 +71,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           ${Utils.getCategoryBadge(s.category, s.avgEcoScore)}
         </div>
         <div class="card card-specular card-hover">
-          <p class="score-label">Estimated Fuel Cost</p>
-          <h2 style="font-size:2rem; margin-bottom:0.4rem; color:#ffffff;">${Utils.formatCurrency(s.totalCost, s.totalFuelL)}</h2>
-          ${Utils.getProvenanceBadge('calculated')}
+          <p class="score-label">Estimated Fuel / Energy Cost</p>
+          <h2 style="font-size:2rem; margin-bottom:0.4rem; color:#ffffff;">${Utils.formatCurrency(s.totalCost)}</h2>
+          <span style="font-size:0.8rem; color:var(--text-subtle);">
+            ${s.totalFuelL > 0 ? `${Utils.formatNumber(s.totalFuelL, 1)} L fuel` : ''}
+            ${s.totalFuelL > 0 && s.totalEnergyKwh > 0 ? ' &bull; ' : ''}
+            ${s.totalEnergyKwh > 0 ? `${Utils.formatNumber(s.totalEnergyKwh, 1)} kWh` : ''}
+          </span>
         </div>
         <div class="card card-specular card-hover">
           <p class="score-label">Estimated CO2 Emissions</p>
@@ -112,18 +116,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             <thead>
               <tr>
                 <th>Date</th>
+                <th>Vehicle</th>
                 <th>Route</th>
                 <th>Distance</th>
                 <th>Duration</th>
                 <th>Eco Score</th>
-                <th>Fuel Cost</th>
+                <th>Est. Cost</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              ${data.recentTrips.map(t => `
+              ${data.recentTrips.map(t => {
+                const vName = t.vehicleId ? `${t.vehicleId.make} ${t.vehicleId.model}` : 'Vehicle';
+                return `
                 <tr>
                   <td>${Utils.formatDate(t.tripDate)}</td>
+                  <td><span style="color:#c084fc; font-weight:600; font-size:0.86rem;">${vName}</span></td>
                   <td><strong>${t.startLocation || 'Origin'}</strong> &rarr; ${t.endLocation || 'Destination'}</td>
                   <td class="mono-metric">${t.distanceKm} km</td>
                   <td class="mono-metric">${t.durationMin} min</td>
@@ -133,10 +141,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                       <strong style="font-family:var(--font-mono);">${t.ecoScore}</strong>
                     </div>
                   </td>
-                  <td class="mono-metric">${Utils.formatCurrency(t.fuelCost, t.fuelConsumedL)}</td>
+                  <td class="mono-metric">${Utils.formatCurrency(t.fuelCost)}</td>
                   <td><a href="trip-details.html?id=${t._id}" class="btn btn-secondary btn-sm" style="padding:0.35rem 0.8rem;">Details</a></td>
                 </tr>
-              `).join('')}
+              `;}).join('')}
             </tbody>
           </table>
         </div>
