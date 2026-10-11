@@ -6,7 +6,7 @@ const ChallengeSchema = new mongoose.Schema({
   category: { 
     type: String, 
     enum: ['eco_score', 'idle_reduction', 'smooth_driving', 'co2_reduction', 'trip_count'], 
-    required: true 
+    default: 'eco_score' 
   },
   targetValue: { type: Number, required: true },
   targetMetric: { type: String, required: true }, // e.g. 'ecoScore', 'tripCount', 'hardAcc'
