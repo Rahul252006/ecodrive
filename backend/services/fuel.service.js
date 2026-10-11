@@ -4,8 +4,8 @@ function calculateFuelAndEnergy(trip, vehicle, userSettings = {}) {
   const distanceKm = Number(trip.distanceKm) || 0;
   const isEv = vehicle && vehicle.fuelType === VEHICLE_TYPES.EV;
   
-  const fuelPrice = userSettings.fuelPriceUsd ?? DEFAULT_PRICES.FUEL_USD_PER_L;
-  const electricityPrice = userSettings.electricityPriceUsd ?? DEFAULT_PRICES.ELECTRICITY_USD_PER_KWH;
+  const fuelPrice = userSettings.fuelPriceInr ?? userSettings.fuelPriceUsd ?? DEFAULT_PRICES.FUEL_INR_PER_L;
+  const electricityPrice = userSettings.electricityPriceInr ?? userSettings.electricityPriceUsd ?? DEFAULT_PRICES.ELECTRICITY_INR_PER_KWH;
 
   let fuelConsumedL = trip.fuelConsumedL !== undefined && trip.fuelConsumedL !== null ? Number(trip.fuelConsumedL) : null;
   let energyConsumedKwh = trip.energyConsumedKwh !== undefined && trip.energyConsumedKwh !== null ? Number(trip.energyConsumedKwh) : null;
@@ -33,8 +33,7 @@ function calculateFuelAndEnergy(trip, vehicle, userSettings = {}) {
       fuelCost = Number((energyConsumedKwh * electricityPrice).toFixed(2));
       if (energyConsumedKwh > 0 && distanceKm > 0) {
         const kmPerKwh = (distanceKm / energyConsumedKwh).toFixed(1);
-        const kwhPer100km = ((energyConsumedKwh / distanceKm) * 100).toFixed(1);
-        efficiencyText = `${kmPerKwh} km/kWh (${kwhPer100km} kWh/100km)`;
+        efficiencyText = `${kmPerKwh} km/kWh`;
       }
     }
   } else {
@@ -42,8 +41,7 @@ function calculateFuelAndEnergy(trip, vehicle, userSettings = {}) {
       fuelCost = Number((fuelConsumedL * fuelPrice).toFixed(2));
       if (fuelConsumedL > 0 && distanceKm > 0) {
         const kmPerL = (distanceKm / fuelConsumedL).toFixed(1);
-        const lPer100km = ((fuelConsumedL / distanceKm) * 100).toFixed(1);
-        efficiencyText = `${kmPerL} km/L (${lPer100km} L/100km)`;
+        efficiencyText = `${kmPerL} km/L`;
       }
     }
   }

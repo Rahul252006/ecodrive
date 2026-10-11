@@ -109,7 +109,11 @@ function renderTripsRows(trips) {
           </div>
         </td>
         <td class="mono-metric">${Utils.formatCurrency(t.fuelCost)}</td>
-        <td class="mono-metric">${t.co2EmissionsKg} kg</td>
+        <td class="mono-metric">
+          ${t.vehicleId?.fuelType === 'EV' 
+            ? `<span style="color:#10b981; font-weight:700;">0.0 kg</span> <span style="font-size:0.7rem; color:#64748b;">(ZEV)</span>` 
+            : `${t.co2EmissionsKg} kg`}
+        </td>
         <td>
           <div style="display:flex; gap:0.5rem;">
             <a href="trip-details.html?id=${t._id}" class="btn btn-secondary btn-sm" style="padding:0.35rem 0.8rem;">Details</a>

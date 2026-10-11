@@ -5,5 +5,7 @@ module.exports = {
   mongoUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/ecodrive',
   jwtSecret: process.env.JWT_SECRET || 'ecodrive_fallback_secret_key_2026',
   clientUrl: process.env.CLIENT_URL || '*',
-  nodeEnv: process.env.NODE_ENV || 'development'
+  nodeEnv: process.env.NODE_ENV || 'development',
+  mapsApiKey: process.env.MAPS_API_KEY || '',
+  mapsProvider: process.env.MAPS_PROVIDER || 'openstreetmap'
 };

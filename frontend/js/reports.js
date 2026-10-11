@@ -52,7 +52,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div class="grid-2" style="margin-bottom:2rem;">
         <div class="card card-specular">
           <div class="card-header">
-            <h3>🌟 Best Performing Trip</h3>
+            <h3 style="display:inline-flex; align-items:center; gap:0.45rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Best Performing Trip
+            </h3>
           </div>
           ${report.bestTrip ? `
             <div style="font-size:0.92rem; display:flex; flex-direction:column; gap:0.5rem; color:#cbd5e1;">
@@ -66,7 +69,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <div class="card card-specular">
           <div class="card-header">
-            <h3>🎯 Focus Area (Weakest Trip)</h3>
+            <h3 style="display:inline-flex; align-items:center; gap:0.45rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              Focus Area (Weakest Trip)
+            </h3>
           </div>
           ${report.weakestTrip ? `
             <div style="font-size:0.92rem; display:flex; flex-direction:column; gap:0.5rem; color:#cbd5e1;">
@@ -87,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:0.75rem;">
           ${(report.recommendations || []).map(r => `
             <li style="display:flex; gap:0.85rem; align-items:flex-start; background:#07070c; border:1px solid rgba(255,255,255,0.06); padding:0.9rem 1.1rem; border-radius:10px;">
-              <span style="color:#c084fc; font-weight:bold; font-size:1.1rem;">✦</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="#c084fc" style="flex-shrink:0; margin-top:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <span style="color:#f1f5f9; line-height:1.5;">${r}</span>
             </li>
           `).join('')}

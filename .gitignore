@@ -6,6 +6,7 @@ frontend/node_modules/
 # Environment Variables & Secrets
 .env
 backend/.env
+frontend/.env
 *.env.local
 
 # OS & Editor Files
@@ -13,7 +14,9 @@ backend/.env
 .vscode/
 .idea/
 
-# Documentation (Excluded per request)
+# Internal / Master Documentation (Excluded per request)
+PROJECT_MASTER_DOCUMENTATION.md
+PROJECT_STRUCTURE.md
 docs/
 docs
 

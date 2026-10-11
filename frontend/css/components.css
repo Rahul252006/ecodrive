@@ -7,17 +7,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
+  gap: 0.45rem;
+  padding: 0.45rem 1.15rem;
   border-radius: var(--radius-full);
   font-family: var(--font-heading);
   font-weight: 600;
-  font-size: 0.94rem;
+  font-size: 0.82rem;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all var(--transition-fast);
   text-decoration: none;
-  line-height: 1.4;
+  line-height: 1.35;
   white-space: nowrap;
   width: max-content;
   box-shadow: none !important;
@@ -33,16 +33,16 @@
   color: #ffffff !important;
   border: none !important;
   font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.78rem 1.95rem;
+  font-size: 0.82rem;
+  padding: 0.46rem 1.25rem;
   border-radius: var(--radius-full);
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.35);
   transition: all var(--transition-fast);
 }
 
 .btn-primary:hover {
   background: linear-gradient(180deg, #ad7bfd 0%, #9d65ff 40%, #8b5cf6 100%);
-  box-shadow: 0 0 35px rgba(139, 92, 246, 0.65);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.55);
   color: #ffffff !important;
   transform: translateY(-1px);
 }
@@ -53,10 +53,10 @@
   color: #09090b !important;
   border: none !important;
   font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.78rem 1.95rem;
+  font-size: 0.82rem;
+  padding: 0.46rem 1.25rem;
   border-radius: var(--radius-full);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   transition: all var(--transition-fast);
 }
 
@@ -64,7 +64,7 @@
   background: #e2e8f0 !important;
   color: #000000 !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 /* Auth Form Sign In Button */
@@ -150,51 +150,57 @@
 }
 
 .btn-sm {
-  padding: 0.42rem 1rem;
-  font-size: 0.84rem;
+  padding: 0.32rem 0.8rem;
+  font-size: 0.76rem;
 }
 
 .btn-lg {
-  padding: 0.9rem 2.2rem;
-  font-size: 1.05rem;
-  font-weight: 700;
+  padding: 0.65rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 /* ---------------- Form Controls ---------------- */
 .form-group {
-  margin-bottom: 1.35rem;
+  margin-bottom: 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
 }
 
 .form-label-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .form-group label {
-  font-size: 0.86rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: #cbd5e1;
+  margin-bottom: 0.5rem; /* Dedicated visible gap between label and input */
+  line-height: 1.3;
 }
 
 .form-control {
   width: 100%;
-  padding: 0.8rem 1.15rem;
+  padding: 0.52rem 0.85rem;
   border-radius: var(--radius-md);
   background: #0d0d14;
   border: 1px solid #222234;
   color: var(--text-bright);
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   outline: none;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 
 .form-control::placeholder {
   color: #525266;
+  font-size: 0.82rem;
 }
 
 .form-control:focus {
@@ -846,3 +852,637 @@ select.form-control {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ---------------- Map & Location Autocomplete ---------------- */
+.trip-mode-switch {
+  position: relative;
+  display: flex;
+  background: #090912;
+  padding: 0.35rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.mode-switch-pill {
+  position: absolute;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  left: 0.35rem;
+  width: calc(50% - 0.35rem);
+  background: linear-gradient(180deg, #9d65ff 0%, #8b5cf6 45%, #7c3aed 100%);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.trip-mode-switch[data-mode="live"] .mode-switch-pill {
+  transform: translateX(100%);
+}
+
+.mode-tab-btn {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-full);
+  background: transparent !important;
+  border: none !important;
+  color: #94a3b8;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  outline: none !important;
+}
+
+.mode-tab-btn.active {
+  color: #ffffff !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.mode-tab-btn:hover:not(.active) {
+  color: #e2e8f0;
+}
+
+.map-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  margin-bottom: 1.15rem;
+  background: #090911;
+  width: 100%;
+}
+
+#trip-map {
+  height: 350px;
+  width: 100%;
+  z-index: 1;
+}
+
+.map-overlay-badge {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  background: rgba(10, 10, 16, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.32rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  pointer-events: none;
+  width: max-content;
+}
+
+.map-quick-cities {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 0.95rem;
+}
+
+.city-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: none !important;
+  color: #cbd5e1;
+  padding: 0.28rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  cursor: pointer;
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+  outline: none !important;
+}
+
+.city-chip:hover {
+  background: rgba(139, 92, 246, 0.18);
+  color: #ffffff;
+}
+
+.city-chip-gps {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #34d399 !important;
+  font-weight: 600;
+}
+
+.city-chip-gps:hover {
+  background: rgba(16, 185, 129, 0.22) !important;
+}
+
+.location-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-with-action {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-embedded-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-weight: 600;
+  font-size: 0.72rem;
+  padding: 0.24rem 0.55rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: max-content;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+
+.input-embedded-btn:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: #10b981;
+}
+
+.input-embedded-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #0d0d18;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 10px;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  display: none;
+  margin-top: 4px;
+}
+
+.autocomplete-item {
+  padding: 0.6rem 0.85rem;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s ease;
+}
+
+.autocomplete-item:hover {
+  background: rgba(139, 92, 246, 0.15);
+  color: #ffffff;
+}
+
+/* ---------------- Fuel Cost Estimator Banner (INR) ---------------- */
+.cost-estimation-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: none !important;
+  border-radius: 12px;
+  padding: 0.85rem 1.2rem;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.cost-metric-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: max-content;
+}
+
+.cost-metric-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cost-metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cost-metric-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.cost-metric-value {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.15rem;
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+.cost-metric-value.highlight-inr {
+  color: #34d399;
+}
+
+/* ---------------- Clean Integrated Automotive Cockpit ---------------- */
+.cockpit-container {
+  background: #0b0b14 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 1.25rem 1.4rem !important;
+  margin-top: 0.5rem;
+}
+
+.cockpit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cockpit-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cockpit-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cockpit-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.cockpit-subtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  display: block;
+  margin-top: 0.1rem;
+}
+
+.cockpit-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.telematics-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.telematics-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+  transition: all 0.25s ease;
+}
+
+.telematics-chip-dot.streaming {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.btn-cockpit-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 1.05rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-full) !important;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(139, 92, 246, 0.25) !important;
+  transition: all var(--transition-fast);
+}
+
+.btn-cockpit-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4) !important;
+}
+
+.btn-cockpit-finish {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: var(--radius-full) !important;
+  padding: 0.42rem 1.05rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-cockpit-finish:hover {
+  background: #059669 !important;
+  transform: translateY(-1px);
+}
+
+.btn-cockpit-abort {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #f87171 !important;
+  border-radius: var(--radius-full) !important;
+  padding: 0.42rem 0.85rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-cockpit-abort:hover {
+  background: rgba(239, 68, 68, 0.22) !important;
+  color: #ffffff !important;
+}
+
+/* Single Integrated Instrument Cluster */
+.instrument-cluster {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr 1px 1fr;
+  padding: 1.15rem 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .instrument-cluster {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 0;
+  }
+  .instrument-divider {
+    display: none;
+  }
+}
+
+.instrument-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.instrument-label {
+  font-size: 0.68rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.25rem;
+}
+
+.instrument-val {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.instrument-val-cost {
+  color: #34d399;
+}
+
+.instrument-unit {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
+.instrument-divider {
+  width: 1px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.06);
+  justify-self: center;
+}
+
+/* Simulator Strip */
+.simulator-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.65rem 0.95rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+}
+
+.simulator-strip-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.simulator-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sim-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  padding: 0.32rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.sim-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.sim-chip:active {
+  transform: scale(0.97);
+}
+
+.sim-chip-count {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  color: #ffffff;
+  font-family: var(--font-mono);
+}
+
+.cockpit-footnote {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 0.85rem;
+  padding: 0 0.2rem;
+}
+
+/* ---------------- Leaflet & OpenStreetMap Styling ---------------- */
+.leaflet-popup-content-wrapper {
+  background: #0d0d16 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(139, 92, 246, 0.45) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  padding: 4px 6px !important;
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  background: #0d0d16 !important;
+  border: 1px solid rgba(139, 92, 246, 0.45) !important;
+}
+
+.leaflet-control-layers {
+  background: rgba(13, 13, 22, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  color: #cbd5e1 !important;
+  font-size: 0.78rem !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(8px);
+}
+
+.leaflet-control-layers-expanded {
+  padding: 8px 12px !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 10, 16, 0.85) !important;
+  color: #94a3b8 !important;
+  font-size: 0.7rem !important;
+  backdrop-filter: blur(4px);
+  border-radius: 4px 0 0 0;
+}
+
+.leaflet-control-attribution a {
+  color: #c084fc !important;
+}
+
+.leaflet-locate-control:hover {
+  background: #171728 !important;
+  color: #34d399 !important;
+}
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.leaflet-bar a {
+  background-color: #0d0d16 !important;
+  color: #cbd5e1 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.leaflet-bar a:hover {
+  background-color: #1c1c2e !important;
+  color: #ffffff !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+
+

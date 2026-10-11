@@ -1,5 +1,9 @@
 const User = require('../models/User');
 const Achievement = require('../models/Achievement');
+const Vehicle = require('../models/Vehicle');
+const Trip = require('../models/Trip');
+const UserChallenge = require('../models/UserChallenge');
+const WeeklyReport = require('../models/WeeklyReport');
 
 async function getProfile(req, res, next) {
   try {
@@ -70,4 +74,29 @@ async function updateSettings(req, res, next) {
   }
 }
 
-module.exports = { getProfile, updateSettings };
+async function deleteAccount(req, res, next) {
+  try {
+    const userId = req.user.id;
+
+    // Remove user and associated collections in MongoDB
+    await Promise.all([
+      User.findByIdAndDelete(userId),
+      Vehicle.deleteMany({ userId }),
+      Trip.deleteMany({ userId }),
+      UserChallenge.deleteMany({ userId }),
+      Achievement.deleteMany({ userId }),
+      WeeklyReport.deleteMany({ userId })
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        message: 'Account and all associated data permanently deleted from database.'
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { getProfile, updateSettings, deleteAccount };

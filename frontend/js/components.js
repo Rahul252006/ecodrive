@@ -5,14 +5,7 @@ const Components = {
     if (!navContainer) return;
 
     const brand = `
-      <a href="index.html" class="nav-brand">
-        <div class="nav-brand-icon">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-        </div>
-        EcoDrive
-      </a>
+      <a href="index.html" class="nav-brand">EcoDrive</a>
     `;
 
     if (!Auth.isAuthenticated()) {
@@ -48,12 +41,12 @@ const Components = {
               <li><a href="reports.html" class="nav-link ${activePage === 'reports' ? 'active' : ''}">Reports</a></li>
             </ul>
             <div class="nav-user">
-              <a href="profile.html" class="user-badge" title="Profile & Level">
-                <span style="color: #c084fc; font-weight:700; font-family:var(--font-mono);">Lvl ${user?.level || 1}</span>
-                <span>${user?.name || 'Driver'}</span>
+              <a href="profile.html" class="nav-profile-btn ${activePage === 'profile' ? 'active' : ''}" title="Profile">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
               </a>
-              <a href="settings.html" class="nav-link ${activePage === 'settings' ? 'active' : ''}" title="Settings" style="font-size:0.85rem;">Settings</a>
-              <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="padding:0.35rem 0.85rem;">Logout</button>
             </div>
           </nav>
         </header>

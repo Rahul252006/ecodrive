@@ -13,13 +13,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       e.preventDefault();
       if (errorAlert) errorAlert.style.display = 'none';
 
+      const inputMileage = Number(document.getElementById('fuelEfficiency').value) || 16.0;
+      const inputEvMileage = Number(document.getElementById('energyEfficiency').value) || 6.5;
+
       const payload = {
         make: document.getElementById('make').value.trim(),
         model: document.getElementById('model').value.trim(),
         year: Number(document.getElementById('year').value),
         fuelType: document.getElementById('fuelType').value,
-        fuelEfficiency: document.getElementById('fuelEfficiency').value ? Number(document.getElementById('fuelEfficiency').value) : 8.0,
-        energyEfficiency: document.getElementById('energyEfficiency').value ? Number(document.getElementById('energyEfficiency').value) : 18.0
+        fuelEfficiency: Number((100 / Math.max(1, inputMileage)).toFixed(2)),
+        energyEfficiency: Number((100 / Math.max(0.5, inputEvMileage)).toFixed(2))
       };
 
       try {
@@ -62,8 +65,8 @@ async function loadVehicles() {
           <div><strong>Model Year:</strong> ${v.year}</div>
           <div><strong>Powertrain:</strong> <span class="badge" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">${v.fuelType}</span></div>
           <div>
-            <strong>Efficiency Spec:</strong> 
-            <span style="font-family:var(--font-mono); color:#c084fc;">${v.fuelType === 'EV' ? `${v.energyEfficiency || 18} kWh/100km` : `${v.fuelEfficiency || 8} L/100km`}</span>
+            <strong>Rated Mileage:</strong> 
+            <span style="font-family:var(--font-mono); color:#c084fc;">${v.fuelType === 'EV' ? `${(100 / (v.energyEfficiency || 18)).toFixed(1)} km/kWh` : `${(100 / (v.fuelEfficiency || 8)).toFixed(1)} km/L`}</span>
           </div>
         </div>
         <div style="display:flex; gap:0.5rem;">

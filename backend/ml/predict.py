@@ -22,15 +22,17 @@ def main():
     hard_brake_count = float(input_data.get('hardBrakingCount', 0.0))
     elevation_gain_m = float(input_data.get('elevationGainM', 20.0))
 
-    # Feature Engineering
+    # Feature Engineering matching trained scikit-learn model
     idle_ratio = idle_time_min / max(0.1, duration_min)
-    accel_density = hard_accel_count / max(0.1, distance_km)
-    brake_density = hard_brake_count / max(0.1, distance_km)
+    accel_per_km = hard_accel_count / max(0.1, distance_km)
+    brake_per_km = hard_brake_count / max(0.1, distance_km)
     speed_ratio = max_speed_kmh / max(1.0, avg_speed_kmh)
+    temp_deviation_c = float(input_data.get('tempDeviationC', 0.0))
 
     feature_cols = [
       'distance_km', 'duration_min', 'avg_speed_kmh', 'max_speed_kmh',
-      'idle_ratio', 'accel_density', 'brake_density', 'elevation_gain_m'
+      'idle_ratio', 'accel_per_km', 'brake_per_km', 'elevation_gain_m',
+      'temp_deviation_c'
     ]
 
     features_df = pd.DataFrame([{
@@ -39,9 +41,10 @@ def main():
       'avg_speed_kmh': avg_speed_kmh,
       'max_speed_kmh': max_speed_kmh,
       'idle_ratio': idle_ratio,
-      'accel_density': accel_density,
-      'brake_density': brake_density,
-      'elevation_gain_m': elevation_gain_m
+      'accel_per_km': accel_per_km,
+      'brake_per_km': brake_per_km,
+      'elevation_gain_m': elevation_gain_m,
+      'temp_deviation_c': temp_deviation_c
     }])[feature_cols]
 
     # Load Model Artifact
@@ -50,7 +53,7 @@ def main():
 
     if not os.path.exists(model_path):
       # Fallback model prediction formula if joblib not found
-      predicted_fuel_l = (distance_km / 13.5) * (1.0 + 0.4 * idle_ratio + 0.5 * accel_density + 0.3 * brake_density)
+      predicted_fuel_l = (distance_km / 13.5) * (1.0 + 0.4 * idle_ratio + 0.5 * accel_per_km + 0.3 * brake_per_km)
       model_name = "Analytical Fallback Baseline Model"
     else:
       model = joblib.load(model_path)
@@ -68,8 +71,8 @@ def main():
         "distanceKm": distance_km,
         "durationMin": duration_min,
         "idleRatio": round(idle_ratio, 3),
-        "accelDensity": round(accel_density, 3),
-        "brakeDensity": round(brake_density, 3),
+        "accelDensity": round(accel_per_km, 3),
+        "brakeDensity": round(brake_per_km, 3),
         "speedRatio": round(speed_ratio, 3)
       }
     }

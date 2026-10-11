@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-function predictExpectedFuelConsumption(trip, vehicle) {
+function predictExpectedFuelConsumption(trip, vehicle, fuelPrice = 102.0) {
   const distanceKm = Number(trip.distanceKm) || 10;
   const durationMin = Number(trip.durationMin) || 15;
   const avgSpeedKmh = Number(trip.avgSpeedKmh) || (distanceKm / (durationMin / 60) || 40);
@@ -50,18 +50,22 @@ function predictExpectedFuelConsumption(trip, vehicle) {
           mlVariancePct = Number((((actualFuelL - mlPredictedFuelL) / mlPredictedFuelL) * 100).toFixed(1));
         }
 
+        const mlPredictedCost = Number((mlPredictedFuelL * fuelPrice).toFixed(2));
+        const costVarianceInr = Number(((actualFuelL - mlPredictedFuelL) * fuelPrice).toFixed(2));
+
         let mlInsightText = '';
         if (mlVariancePct > 5) {
-          mlInsightText = `Your drive consumed ${Math.abs(mlVariancePct)}% more fuel than predicted by the trained ML model (${pyResult.mlModelName}).`;
+          mlInsightText = `Your drive consumed ${Math.abs(mlVariancePct)}% more fuel than predicted by the trained ML model (${pyResult.mlModelName}), resulting in +₹${costVarianceInr.toFixed(2)} extra fuel cost.`;
         } else if (mlVariancePct < -5) {
-          mlInsightText = `Great job! Your drive consumed ${Math.abs(mlVariancePct)}% less fuel than predicted by the trained ML model (${pyResult.mlModelName}).`;
+          mlInsightText = `Great job! Your drive consumed ${Math.abs(mlVariancePct)}% less fuel than predicted by the trained ML model (${pyResult.mlModelName}), saving ₹${Math.abs(costVarianceInr).toFixed(2)}!`;
         } else {
-          mlInsightText = `Fuel consumption matched trained ML model predictions within standard bounds.`;
+          mlInsightText = `Fuel consumption closely matched trained ML model predictions within standard bounds.`;
         }
 
         return {
           mlModelName: pyResult.mlModelName,
           mlPredictedFuelL,
+          mlPredictedCost,
           actualFuelL,
           mlVariancePct,
           mlInsightText,
@@ -85,18 +89,22 @@ function predictExpectedFuelConsumption(trip, vehicle) {
     mlVariancePct = Number((((actualFuelL - mlPredictedFuelL) / mlPredictedFuelL) * 100).toFixed(1));
   }
 
+  const mlPredictedCost = Number((mlPredictedFuelL * fuelPrice).toFixed(2));
+  const costVarianceInr = Number(((actualFuelL - mlPredictedFuelL) * fuelPrice).toFixed(2));
+
   let mlInsightText = '';
   if (mlVariancePct > 5) {
-    mlInsightText = `Your drive consumed ${Math.abs(mlVariancePct)}% more fuel than predicted by the scikit-learn ML baseline.`;
+    mlInsightText = `Your drive consumed ${Math.abs(mlVariancePct)}% more fuel than predicted by the ML baseline, resulting in +₹${costVarianceInr.toFixed(2)} extra fuel cost.`;
   } else if (mlVariancePct < -5) {
-    mlInsightText = `Great job! Your drive consumed ${Math.abs(mlVariancePct)}% less fuel than predicted by the scikit-learn ML baseline.`;
+    mlInsightText = `Great job! Your drive consumed ${Math.abs(mlVariancePct)}% less fuel than predicted by the ML baseline, saving ₹${Math.abs(costVarianceInr).toFixed(2)}!`;
   } else {
-    mlInsightText = `Fuel consumption matched trained ML model predictions within standard bounds.`;
+    mlInsightText = `Fuel consumption closely matched trained ML model predictions within standard bounds.`;
   }
 
   return {
     mlModelName: 'Trained ML Model (eco_driving_model.joblib)',
     mlPredictedFuelL,
+    mlPredictedCost,
     actualFuelL,
     mlVariancePct,
     mlInsightText,

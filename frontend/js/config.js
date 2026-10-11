@@ -11,13 +11,25 @@ const CONFIG = {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('ecodrive_api_url')) {
       return localStorage.getItem('ecodrive_api_url');
     }
-    // 3. Local development environment
-    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-      return 'http://localhost:5000/api';
+    // 3. Local storage override (for custom backend testing)
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('ecodrive_api_url')) {
+      return localStorage.getItem('ecodrive_api_url');
     }
-    // 4. Production default (live Render backend)
+    // 4. Default API URL (live Render backend)
     return 'https://ecodrive-l1rx.onrender.com/api';
-  })()
+  })(),
+
+  MAPS_API_KEY: (() => {
+    if (typeof window !== 'undefined' && window.__ECODRIVE_MAPS_KEY__) {
+      return window.__ECODRIVE_MAPS_KEY__;
+    }
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('ecodrive_maps_key')) {
+      return localStorage.getItem('ecodrive_maps_key');
+    }
+    return '';
+  })(),
+
+  MAPS_PROVIDER: 'openstreetmap'
 };
 
 // Helper utility to switch Render backend URL instantly in browser

@@ -30,6 +30,7 @@ const TripSchema = new mongoose.Schema({
   recommendations: [{ type: String }],
   mlModelName: { type: String, default: 'Trained ML Model (eco_driving_model.joblib)' },
   mlPredictedFuelL: { type: Number, default: 0 },
+  mlPredictedCost: { type: Number, default: 0 },
   mlVariancePct: { type: Number, default: 0 },
   mlInsightText: { type: String, default: '' },
   provenance: {

@@ -3,92 +3,241 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Log New Trip — EcoDrive</title>
-  <meta name="description" content="Log a driving trip for ML inference and Eco Scoring.">
+  <title>Plan &amp; Start Trip — EcoDrive</title>
+  <meta name="description" content="Map-based route planning, Indian Rupee fuel cost estimation, and live connected vehicle telemetry demo.">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/components.css?v=5">
+  <link rel="stylesheet" href="css/layout.css?v=5">
+  <link rel="stylesheet" href="css/responsive.css?v=5">
+  <!-- Free OpenStreetMap Leaflet.js -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 <body>
   <div id="navbar-container"></div>
 
-  <main class="container app-content-offset" style="max-width:760px;">
-    <div class="page-header">
+  <main class="container app-content-offset" style="max-width:880px;">
+    <div class="page-header" style="margin-bottom:1.25rem;">
       <div class="page-title-group">
-        <h1>Log Driving Trip</h1>
-        <p>Record trip telemetry for real scikit-learn ML inference and 6-metric scoring.</p>
+        <h1 style="font-size:1.4rem; margin-bottom:0.25rem;">Trip Navigator &amp; Telemetry Cockpit</h1>
+        <p style="font-size:0.84rem; color:#94a3b8; margin:0;">Interactive location selection, Indian Rupee fuel cost estimation, and connected vehicle telemetry demo.</p>
       </div>
-      <a href="trips.html" class="btn btn-secondary">&larr; Back to Trips</a>
+      <a href="trips.html" class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:0.4rem;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Trips
+      </a>
     </div>
 
-    <div class="card-specular" style="padding:2.25rem; background:#0b0b12;">
-      <div id="error-alert" class="toast toast-error" style="display:none; margin-bottom:1.5rem; position:static; width:100%;"></div>
+    <!-- Mode Switcher with Animated Sliding Pill -->
+    <div class="trip-mode-switch" id="trip-mode-switch" data-mode="map">
+      <div class="mode-switch-pill" id="mode-switch-pill"></div>
+      <button type="button" class="mode-tab-btn active" id="tab-btn-map" onclick="switchTripMode('map')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+        Route Planner &amp; Manual Log
+      </button>
+      <button type="button" class="mode-tab-btn" id="tab-btn-live" onclick="switchTripMode('live')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+        Start Live Connected Trip (OBD-II Demo)
+      </button>
+    </div>
+
+    <!-- Error Alert -->
+    <div id="error-alert" class="toast toast-error" style="display:none; margin-bottom:1.25rem; position:static; width:100%; font-size:0.85rem; padding:0.75rem 1rem;"></div>
+
+    <!-- Vehicle Selection Card -->
+    <div class="card-specular" style="padding:1rem 1.3rem; background:#0b0b12; margin-bottom:1.15rem; border-radius:14px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; width:100%;">
+        <div style="flex:1; min-width:240px;">
+          <label for="vehicleId" style="font-weight:600; color:#cbd5e1; font-size:0.8rem; margin-bottom:0.45rem; display:flex; align-items:center; gap:0.4rem; width:max-content;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+            Active Vehicle
+          </label>
+          <select id="vehicleId" class="form-control" style="font-size:0.86rem; padding:0.5rem 0.8rem;"></select>
+        </div>
+        <div id="vehicle-specs-badge" style="font-size:0.78rem; color:#94a3b8; background:rgba(255,255,255,0.03); padding:0.45rem 0.8rem; border-radius:8px; display:inline-flex; align-items:center; gap:0.5rem; width:max-content;">
+          <span>Mileage: <strong id="v-spec-eff" style="color:#ffffff;">--</strong></span>
+          <span style="color:rgba(255,255,255,0.2);">&bull;</span>
+          <span>Type: <strong id="v-spec-type" style="color:#c084fc;">--</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Location & Map Section -->
+    <div class="card-specular" style="padding:1.3rem; background:#0b0b12; margin-bottom:1.15rem; border-radius:14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; flex-wrap:wrap; gap:0.5rem; width:100%;">
+        <div style="display:flex; align-items:center; gap:0.45rem; width:max-content;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          <h2 style="margin:0; font-size:1.05rem; color:#ffffff; font-weight:700;">Route Planner &amp; Map</h2>
+        </div>
+        <span style="font-size:0.74rem; color:#94a3b8; display:flex; align-items:center; gap:0.35rem; width:max-content;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Click map: 1st click = Origin &bull; 2nd click = Destination
+        </span>
+      </div>
+
+      <!-- Quick Preset City Routes in India -->
+      <div class="map-quick-cities">
+        <span style="font-size:0.74rem; color:#64748b; font-weight:600; width:max-content; display:inline-flex; align-items:center; gap:0.3rem;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Presets:
+        </span>
+        <button type="button" class="city-chip city-chip-gps" onclick="useCurrentLocation()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg>
+          Current Location
+        </button>
+        <button type="button" class="city-chip" onclick="setPresetRoute('blr')">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+          Bengaluru: Indiranagar &rarr; Whitefield
+        </button>
+        <button type="button" class="city-chip" onclick="setPresetRoute('mum')">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+          Mumbai: Bandra &rarr; Marine Drive
+        </button>
+        <button type="button" class="city-chip" onclick="setPresetRoute('del')">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+          Delhi: Connaught Place &rarr; Cyber Hub
+        </button>
+        <button type="button" class="city-chip" onclick="setPresetRoute('hyd')">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+          Hyderabad: Hitec City &rarr; Secunderabad
+        </button>
+      </div>
+
+      <!-- Location Search Bars with Free Geocoding -->
+      <div style="display:flex; gap:1rem; width:100%; margin-bottom:1rem; flex-wrap:wrap;">
+        <div class="form-group location-input-container" style="flex:1; min-width:240px; margin-bottom:0;">
+          <label for="startLocation" style="font-weight:600; font-size:0.8rem; color:#cbd5e1; margin-bottom:0.45rem; display:flex; align-items:center; gap:0.4rem; width:max-content;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="#10b981"/></svg>
+            Start Location / Origin
+          </label>
+          <div class="input-with-action">
+            <input type="text" id="startLocation" class="form-control" style="padding-right:98px;" placeholder="Search origin or click map" autocomplete="off">
+            <button type="button" id="btn-use-current-location" onclick="useCurrentLocation()" class="input-embedded-btn" title="Use current GPS location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg>
+              <span>Locate Me</span>
+            </button>
+          </div>
+          <div id="start-autocomplete" class="autocomplete-dropdown"></div>
+        </div>
+
+        <div class="form-group location-input-container" style="flex:1; min-width:240px; margin-bottom:0;">
+          <label for="endLocation" style="font-weight:600; font-size:0.8rem; color:#cbd5e1; margin-bottom:0.45rem; display:flex; align-items:center; gap:0.4rem; width:max-content;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="#8b5cf6"/></svg>
+            Destination
+          </label>
+          <div class="input-with-action">
+            <input type="text" id="endLocation" class="form-control" placeholder="Search destination (e.g. Whitefield)" autocomplete="off">
+          </div>
+          <div id="end-autocomplete" class="autocomplete-dropdown"></div>
+        </div>
+      </div>
+
+      <!-- Leaflet Map Container -->
+      <div class="map-wrapper">
+        <div class="map-overlay-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Click map to pin locations
+        </div>
+        <div id="trip-map" style="height:320px;"></div>
+      </div>
+
+      <!-- Live Fuel Cost Estimation in Indian Rupees (₹) -->
+      <div class="cost-estimation-card" id="fuel-cost-card">
+        <div class="cost-metric-box">
+          <div class="cost-metric-icon" style="background:rgba(56, 189, 248, 0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          </div>
+          <div class="cost-metric-info">
+            <span class="cost-metric-label">Route Distance</span>
+            <span class="cost-metric-value" id="est-dist-display">0.0 km</span>
+          </div>
+        </div>
+
+        <div class="cost-metric-box">
+          <div class="cost-metric-icon" style="background:rgba(251, 191, 36, 0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="cost-metric-info">
+            <span class="cost-metric-label">Est. Duration</span>
+            <span class="cost-metric-value" id="est-time-display">0 min</span>
+          </div>
+        </div>
+
+        <div class="cost-metric-box">
+          <div class="cost-metric-icon" style="background:rgba(192, 132, 252, 0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h12M4 9h10M4 22V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v18M14 9h2a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V9.8a2 2 0 0 0-.58-1.42L20 7"/></svg>
+          </div>
+          <div class="cost-metric-info">
+            <span class="cost-metric-label">Estimated Fuel</span>
+            <span class="cost-metric-value" id="est-fuel-display">0.00 L</span>
+          </div>
+        </div>
+
+        <div class="cost-metric-box">
+          <div class="cost-metric-icon" style="background:rgba(52, 211, 153, 0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 10h12M6 14h6"/></svg>
+          </div>
+          <div class="cost-metric-info">
+            <span class="cost-metric-label">Estimated Cost (INR)</span>
+            <span class="cost-metric-value highlight-inr" id="est-cost-inr-display">₹0.00</span>
+            <span style="font-size:0.67rem; color:#94a3b8; display:block; margin-top:1px;">@ ₹102.00 / L (Avg)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL 1: Manual / Form Logging Mode -->
+    <div id="panel-map-mode" class="card-specular" style="padding:1.6rem; background:#0b0b12; border-radius:14px;">
+      <h3 style="margin-top:0; margin-bottom:0.35rem; color:#ffffff; font-size:1.05rem;">Trip Telemetry Parameters</h3>
+      <p style="color:#94a3b8; font-size:0.82rem; margin-bottom:1.25rem;">Parameters below are calculated from your selected route. Adjust values if needed and run inference.</p>
 
       <form id="add-trip-form">
-        <div class="form-group">
-          <label for="vehicleId">Vehicle Used</label>
-          <select id="vehicleId" class="form-control" required></select>
-        </div>
-
-        <div class="grid-2" style="gap:1rem;">
-          <div class="form-group">
-            <label for="startLocation">Start Location / Origin</label>
-            <input type="text" id="startLocation" class="form-control" placeholder="e.g. Home" value="Home">
-          </div>
-          <div class="form-group">
-            <label for="endLocation">Destination</label>
-            <input type="text" id="endLocation" class="form-control" placeholder="e.g. Downtown Office" value="Downtown Office">
-          </div>
-        </div>
-
-        <div class="grid-2" style="gap:1rem;">
-          <div class="form-group">
+        <div style="display:flex; gap:1rem; width:100%; margin-bottom:1rem; flex-wrap:wrap;">
+          <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
             <label for="distanceKm">Distance (km) *</label>
             <input type="number" step="0.1" id="distanceKm" class="form-control" placeholder="25.5" required min="0.1">
           </div>
-          <div class="form-group">
+          <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
             <label for="durationMin">Duration (minutes) *</label>
             <input type="number" id="durationMin" class="form-control" placeholder="30" required min="1">
           </div>
         </div>
 
-        <div class="grid-2" style="gap:1rem;">
-          <div class="form-group">
+        <div style="display:flex; gap:1rem; width:100%; margin-bottom:1rem; flex-wrap:wrap;">
+          <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
             <label for="avgSpeedKmh">Average Speed (km/h)</label>
             <input type="number" step="0.1" id="avgSpeedKmh" class="form-control" placeholder="50">
           </div>
-          <div class="form-group">
+          <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
             <label for="maxSpeedKmh">Maximum Speed (km/h)</label>
             <input type="number" step="0.1" id="maxSpeedKmh" class="form-control" placeholder="80">
           </div>
         </div>
 
-        <div class="grid-3" style="gap:1rem;">
-          <div class="form-group">
+        <div style="display:flex; gap:1rem; width:100%; margin-bottom:1rem; flex-wrap:wrap;">
+          <div class="form-group" style="flex:1; min-width:140px; margin-bottom:0;">
             <label for="idleTimeMin">Idle Time (mins)</label>
             <input type="number" id="idleTimeMin" class="form-control" value="0" min="0">
           </div>
-          <div class="form-group">
+          <div class="form-group" style="flex:1; min-width:140px; margin-bottom:0;">
             <label for="hardAccelerationCount">Hard Accels</label>
             <input type="number" id="hardAccelerationCount" class="form-control" value="0" min="0">
           </div>
-          <div class="form-group">
+          <div class="form-group" style="flex:1; min-width:140px; margin-bottom:0;">
             <label for="hardBrakingCount">Hard Brakes</label>
             <input type="number" id="hardBrakingCount" class="form-control" value="0" min="0">
           </div>
         </div>
 
-        <div class="grid-2" style="gap:1rem; background:#07070c; border:1px solid rgba(255,255,255,0.06); padding:1.25rem; border-radius:14px; margin-bottom:1.5rem;">
-          <div class="form-group" style="margin:0;">
-            <label for="fuelConsumedL">Fuel Consumed (L) <span style="font-size:0.75rem; color:#64748b;">(ICE/HEV)</span></label>
-            <input type="number" step="0.01" id="fuelConsumedL" class="form-control" placeholder="Auto-estimate if blank">
+        <div style="display:flex; gap:1rem; background:rgba(255,255,255,0.02); border:none; padding:0.9rem 1.1rem; border-radius:10px; margin-bottom:1.25rem; flex-wrap:wrap; width:100%;">
+          <div class="form-group" style="flex:1; min-width:200px; margin:0;">
+            <label for="fuelConsumedL">Fuel Consumed (L) <span style="font-size:0.72rem; color:#64748b;">(ICE/HEV)</span></label>
+            <input type="number" step="0.01" id="fuelConsumedL" class="form-control" placeholder="Auto-calculated if blank">
           </div>
-          <div class="form-group" style="margin:0;">
-            <label for="energyConsumedKwh">Energy Consumed (kWh) <span style="font-size:0.75rem; color:#64748b;">(EV)</span></label>
-            <input type="number" step="0.01" id="energyConsumedKwh" class="form-control" placeholder="Auto-estimate if blank">
+          <div class="form-group" style="flex:1; min-width:200px; margin:0;">
+            <label for="energyConsumedKwh">Energy Consumed (kWh) <span style="font-size:0.72rem; color:#64748b;">(EV)</span></label>
+            <input type="number" step="0.01" id="energyConsumedKwh" class="form-control" placeholder="Auto-calculated if blank">
           </div>
         </div>
 
@@ -96,21 +245,130 @@
           <input type="datetime-local" id="tripDate">
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
-          Run ML Inference &amp; Save Trip &rarr;
+        <button type="submit" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; padding:0.6rem 1.2rem; font-size:0.88rem;">
+          Run ML Inference &amp; Save Trip
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </button>
       </form>
+    </div>
+
+    <!-- PANEL 2: Live Connected Car Telemetry Cockpit -->
+    <div id="panel-live-mode" class="card-specular cockpit-container" style="display:none;">
+      <!-- Cockpit Header & Action Toolbar -->
+      <div class="cockpit-header">
+        <div class="cockpit-title-group">
+          <div class="cockpit-icon-box">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+          </div>
+          <div>
+            <h2 class="cockpit-title">Connected Vehicle Cockpit</h2>
+            <span class="cockpit-subtitle">Live OBD-II CAN-Bus Telemetry Stream</span>
+          </div>
+        </div>
+
+        <div class="cockpit-actions">
+          <div id="live-obd-badge" class="telematics-chip">
+            <span class="telematics-chip-dot" id="obd-status-dot"></span>
+            <span id="obd-status-text">STANDBY</span>
+          </div>
+
+          <button type="button" id="btn-start-live-trip" class="btn btn-primary btn-sm btn-cockpit-action" onclick="startLiveTrip()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            <span>Start Trip</span>
+          </button>
+
+          <button type="button" id="btn-finish-live-trip" class="btn btn-sm btn-cockpit-finish" onclick="finishLiveTrip()" style="display:none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Finish Trip</span>
+          </button>
+
+          <button type="button" id="btn-abort-live-trip" class="btn btn-sm btn-cockpit-abort" onclick="abortLiveTrip()" style="display:none;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>Abort</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Integrated Instrument Cluster -->
+      <div class="instrument-cluster">
+        <div class="instrument-cell">
+          <span class="instrument-label">Live Speed</span>
+          <div class="instrument-val" id="live-speed-val">0</div>
+          <span class="instrument-unit">km/h</span>
+        </div>
+
+        <div class="instrument-divider"></div>
+
+        <div class="instrument-cell">
+          <span class="instrument-label">Distance</span>
+          <div class="instrument-val" id="live-dist-val">0.0</div>
+          <span class="instrument-unit">of <span id="live-target-dist">0.0</span> km</span>
+        </div>
+
+        <div class="instrument-divider"></div>
+
+        <div class="instrument-cell">
+          <span class="instrument-label">Duration</span>
+          <div class="instrument-val" id="live-timer-val">00:00</div>
+          <span class="instrument-unit">elapsed</span>
+        </div>
+
+        <div class="instrument-divider"></div>
+
+        <div class="instrument-cell">
+          <span class="instrument-label">Fuel Consumed</span>
+          <div class="instrument-val" id="live-fuel-val">0.00</div>
+          <span class="instrument-unit">Liters</span>
+        </div>
+
+        <div class="instrument-divider"></div>
+
+        <div class="instrument-cell">
+          <span class="instrument-label">Fuel Cost</span>
+          <div class="instrument-val instrument-val-cost" id="live-cost-val">₹0.00</div>
+          <span class="instrument-unit">INR (₹)</span>
+        </div>
+      </div>
+
+      <!-- Simulator Controls Strip -->
+      <div class="simulator-strip">
+        <span class="simulator-strip-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Simulate CAN Signals:
+        </span>
+        <div class="simulator-buttons">
+          <button type="button" class="sim-chip" onclick="triggerLiveEvent('accel')">
+            <span style="color:#f59e0b;">⚡ Hard Accel</span>
+            <span class="sim-chip-count" id="count-live-accel">0</span>
+          </button>
+          <button type="button" class="sim-chip" onclick="triggerLiveEvent('brake')">
+            <span style="color:#ef4444;">⊝ Hard Brake</span>
+            <span class="sim-chip-count" id="count-live-brake">0</span>
+          </button>
+          <button type="button" class="sim-chip" onclick="triggerLiveEvent('idle')">
+            <span style="color:#38bdf8;">⏱ Traffic Idle</span>
+            <span class="sim-chip-count" id="count-live-idle">0m</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Minimal Footnote -->
+      <div class="cockpit-footnote">
+        OBD-II Hardware Link: Connects via in-vehicle Bluetooth/Cellular CAN-bus dongle to stream RPM, speed, and fuel rate into EcoDrive's inference engine.
+      </div>
     </div>
   </main>
 
   <div id="footer-container"></div>
 
+  <!-- Free OpenStreetMap Leaflet.js -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/guards.js"></script>
   <script src="js/utils.js"></script>
-  <script src="js/components.js"></script>
-  <script src="js/add-trip.js"></script>
+  <script src="js/components.js?v=5"></script>
+  <script src="js/add-trip.js?v=5"></script>
 </body>
 </html>

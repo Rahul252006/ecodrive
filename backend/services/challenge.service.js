@@ -5,7 +5,56 @@ const Achievement = require('../models/Achievement');
 const { XP_EVENTS, LEVEL_XP_STEP } = require('../utils/constants');
 
 async function getChallenges(userId) {
-  const challenges = await Challenge.find({ active: true }).lean();
+  let challenges = await Challenge.find({ active: true }).lean();
+
+  // If no challenges exist in DB, automatically seed the 4 default behavior challenges
+  if (challenges.length === 0) {
+    const defaultChallenges = [
+      {
+        code: 'ECO_MASTER_1',
+        title: 'Eco Master',
+        description: 'Achieve an EcoScore of 80 or higher on 3 different trips.',
+        targetMetric: 'ecoScore',
+        targetValue: 3,
+        rewardXp: 150,
+        icon: 'award',
+        active: true
+      },
+      {
+        code: 'ZERO_IDLE_1',
+        title: 'Zero Idle Champion',
+        description: 'Complete 2 trips with 0 idling at intersections.',
+        targetMetric: 'idleReduction',
+        targetValue: 2,
+        rewardXp: 100,
+        icon: 'clock',
+        active: true
+      },
+      {
+        code: 'SMOOTH_DRIVER_1',
+        title: 'Smooth Driver',
+        description: 'Log 3 trips with fewer than 3 hard acceleration events.',
+        targetMetric: 'hardAcc',
+        targetValue: 3,
+        rewardXp: 120,
+        icon: 'trending-up',
+        active: true
+      },
+      {
+        code: 'ROAD_WARRIOR_1',
+        title: 'Road Warrior',
+        description: 'Log at least 5 trips in a single calendar week.',
+        targetMetric: 'tripCount',
+        targetValue: 5,
+        rewardXp: 200,
+        icon: 'map-pin',
+        active: true
+      }
+    ];
+    await Challenge.insertMany(defaultChallenges);
+    challenges = await Challenge.find({ active: true }).lean();
+  }
+
   const userChallenges = await UserChallenge.find({ userId }).lean();
 
   const joinedMap = {};

@@ -64,9 +64,9 @@ async function createTrip(userId, tripData) {
 
   // 5. Generate Coaching & ML Model Efficiency Insights
   const recommendations = generateCoaching(tripData, scoreResult, historicalAvgScore);
-  const mlInsight = predictExpectedFuelConsumption(tripData, vehicle);
-  if (mlInsight && mlInsight.insightText) {
-    recommendations.unshift(`[ML Baseline Insight] ${mlInsight.insightText}`);
+  const mlInsight = predictExpectedFuelConsumption(tripData, vehicle, fuelAndEnergy.unitPriceUsed);
+  if (mlInsight && mlInsight.mlInsightText) {
+    recommendations.unshift(`[ML Baseline Insight] ${mlInsight.mlInsightText}`);
   }
 
   // 6. Construct Trip Record
@@ -93,6 +93,7 @@ async function createTrip(userId, tripData) {
     recommendations,
     mlModelName: mlInsight.mlModelName,
     mlPredictedFuelL: mlInsight.mlPredictedFuelL,
+    mlPredictedCost: mlInsight.mlPredictedCost || 0,
     mlVariancePct: mlInsight.mlVariancePct,
     mlInsightText: mlInsight.mlInsightText,
     provenance: {

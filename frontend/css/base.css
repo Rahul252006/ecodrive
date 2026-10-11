@@ -3,8 +3,8 @@ html {
   font-family: var(--font-body);
   background-color: var(--bg-main);
   color: var(--text-main);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
   letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,16 +26,16 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--text-bright);
   font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
-  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.65rem;
 }
 
 h1 {
-  font-size: 3.2rem;
+  font-size: 1.75rem;
   font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1.2;
+  letter-spacing: -0.04em;
+  line-height: 1.25;
   padding-bottom: 0.1em;
   background: var(--heading-white-gradient);
   -webkit-background-clip: text;
@@ -43,23 +43,23 @@ h1 {
 }
 
 h2 {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: -0.035em;
   background: var(--heading-white-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 h3 {
-  font-size: 1.35rem;
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: #ffffff;
 }
 
 h4 {
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: #f1f5f9;
 }

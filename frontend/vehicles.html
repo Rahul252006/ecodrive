@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/components.css?v=5">
+  <link rel="stylesheet" href="css/layout.css?v=5">
+  <link rel="stylesheet" href="css/responsive.css?v=5">
 </head>
 <body>
   <div id="navbar-container"></div>
@@ -29,20 +29,20 @@
       <div id="vehicle-error-alert" class="toast toast-error" style="display:none; margin-bottom:1rem; position:static; width:100%;"></div>
       
       <form id="add-vehicle-form">
-        <div class="grid-4" style="gap:1rem;">
-          <div class="form-group">
+        <div class="grid-4" style="gap:1rem; margin-bottom:1rem;">
+          <div class="form-group" style="margin-bottom:0;">
             <label for="make">Make</label>
             <input type="text" id="make" class="form-control" placeholder="Toyota" required>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom:0;">
             <label for="model">Model</label>
             <input type="text" id="model" class="form-control" placeholder="Prius" required>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom:0;">
             <label for="year">Year</label>
             <input type="number" id="year" class="form-control" value="2023" required>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="margin-bottom:0;">
             <label for="fuelType">Powertrain Type</label>
             <select id="fuelType" class="form-control" required>
               <option value="ICE">ICE (Gasoline/Diesel)</option>
@@ -53,17 +53,20 @@
           </div>
         </div>
 
-        <div class="grid-3" style="gap:1rem;">
-          <div class="form-group">
-            <label for="fuelEfficiency">Fuel Spec (L/100km)</label>
-            <input type="number" step="0.1" id="fuelEfficiency" class="form-control" placeholder="4.5" value="4.5">
+        <div class="grid-4" style="gap:1rem; align-items:flex-end;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="fuelEfficiency">Rated Mileage (km/L)</label>
+            <input type="number" step="0.1" id="fuelEfficiency" class="form-control" placeholder="18.5" value="18.5">
           </div>
-          <div class="form-group">
-            <label for="energyEfficiency">EV Spec (kWh/100km)</label>
-            <input type="number" step="0.1" id="energyEfficiency" class="form-control" placeholder="18.0" value="18.0">
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="energyEfficiency">EV Mileage (km/kWh)</label>
+            <input type="number" step="0.1" id="energyEfficiency" class="form-control" placeholder="6.5" value="6.5">
           </div>
-          <div class="form-group" style="display:flex; align-items:flex-end;">
-            <button type="submit" class="btn btn-primary" style="width:100%; padding:0.75rem;">+ Save Vehicle to Garage</button>
+          <div style="grid-column: span 2; display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-primary" style="height:42px; padding:0 1.5rem; display:inline-flex; align-items:center; gap:0.45rem; font-weight:600; border-radius:var(--radius-full); font-size:0.85rem; width:max-content;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Save Vehicle to Garage
+            </button>
           </div>
         </div>
       </form>
@@ -82,7 +85,7 @@
   <script src="js/auth.js"></script>
   <script src="js/guards.js"></script>
   <script src="js/utils.js"></script>
-  <script src="js/components.js"></script>
-  <script src="js/vehicles.js"></script>
+  <script src="js/components.js?v=5"></script>
+  <script src="js/vehicles.js?v=6"></script>
 </body>
 </html>
