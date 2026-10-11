@@ -31,7 +31,7 @@ async function getProfile(req, res, next) {
 
 async function updateSettings(req, res, next) {
   try {
-    const { name, goal, fuelPriceConfig, electricityPriceConfig, privacySettings } = req.body;
+    const { name, goal, petrolPriceConfig, dieselPriceConfig, fuelPriceConfig, electricityPriceConfig, privacySettings } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -43,6 +43,8 @@ async function updateSettings(req, res, next) {
 
     if (name) user.name = name.trim();
     if (goal) user.goal = goal;
+    if (petrolPriceConfig !== undefined) user.petrolPriceConfig = Number(petrolPriceConfig);
+    if (dieselPriceConfig !== undefined) user.dieselPriceConfig = Number(dieselPriceConfig);
     if (fuelPriceConfig !== undefined) user.fuelPriceConfig = Number(fuelPriceConfig);
     if (electricityPriceConfig !== undefined) user.electricityPriceConfig = Number(electricityPriceConfig);
     

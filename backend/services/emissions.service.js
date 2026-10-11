@@ -2,6 +2,7 @@ const { EMISSIONS_FACTORS, VEHICLE_TYPES } = require('../utils/constants');
 
 function calculateEmissions(fuelAndEnergy, vehicle) {
   const isEv = vehicle && vehicle.fuelType === VEHICLE_TYPES.EV;
+  const isDiesel = vehicle && vehicle.fuelType === VEHICLE_TYPES.DIESEL;
   let co2EmissionsKg = 0;
   let tailpipeEmissionsKg = 0;
   let gridLifecycleEmissionsKg = 0;
@@ -14,12 +15,18 @@ function calculateEmissions(fuelAndEnergy, vehicle) {
     gridLifecycleEmissionsKg = Number((energyKwh * factor).toFixed(2));
     co2EmissionsKg = gridLifecycleEmissionsKg;
     calculationMethod = `Zero Tailpipe Emissions (ZEV). Upstream grid charging generation: ${gridLifecycleEmissionsKg} kg CO2 (${factor} kg CO2 / kWh)`;
-  } else {
+  } else if (isDiesel) {
     const fuelL = fuelAndEnergy.fuelConsumedL || 0;
-    const factor = EMISSIONS_FACTORS.ICE_GASOLINE_KG_PER_L;
+    const factor = EMISSIONS_FACTORS.DIESEL_KG_PER_L || 2.68;
     tailpipeEmissionsKg = Number((fuelL * factor).toFixed(2));
     co2EmissionsKg = tailpipeEmissionsKg;
-    calculationMethod = `Standard gasoline combustion factor: ${factor} kg CO2 / L`;
+    calculationMethod = `Standard diesel combustion factor: ${factor} kg CO2 / L`;
+  } else {
+    const fuelL = fuelAndEnergy.fuelConsumedL || 0;
+    const factor = EMISSIONS_FACTORS.PETROL_GASOLINE_KG_PER_L || 2.31;
+    tailpipeEmissionsKg = Number((fuelL * factor).toFixed(2));
+    co2EmissionsKg = tailpipeEmissionsKg;
+    calculationMethod = `Standard petrol combustion factor: ${factor} kg CO2 / L`;
   }
 
   return {

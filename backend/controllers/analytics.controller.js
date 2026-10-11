@@ -47,7 +47,14 @@ async function getDashboard(req, res, next) {
 
     const totalTrips = trips.length;
     const totalDistanceKm = Number(trips.reduce((acc, t) => acc + (t.distanceKm || 0), 0).toFixed(1));
-    const totalCost = Number(trips.reduce((acc, t) => acc + (t.fuelCost || 0), 0).toFixed(2));
+    const totalCost = Number(trips.reduce((acc, t) => {
+      let cost = Number(t.fuelCost) || 0;
+      // Auto-heal legacy USD-calculated trips (< ₹25 with measurable fuel or distance) to proper Indian Rupees (₹)
+      if (cost > 0 && cost < 25 && ((t.fuelConsumedL && t.fuelConsumedL >= 0.5) || (t.distanceKm && t.distanceKm >= 5))) {
+        cost = cost * (102.0 / 1.50);
+      }
+      return acc + cost;
+    }, 0).toFixed(2));
     const totalCo2Kg = Number(trips.reduce((acc, t) => acc + (t.co2EmissionsKg || 0), 0).toFixed(2));
     const totalFuelL = Number(trips.reduce((acc, t) => acc + (t.fuelConsumedL || 0), 0).toFixed(1));
     const totalEnergyKwh = Number(trips.reduce((acc, t) => acc + (t.energyConsumedKwh || 0), 0).toFixed(1));

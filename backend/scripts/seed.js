@@ -74,8 +74,10 @@ async function seed() {
     xp: 320,
     level: 2,
     streak: 4,
-    fuelPriceConfig: 1.50,
-    electricityPriceConfig: 0.15,
+    petrolPriceConfig: 102.00,
+    dieselPriceConfig: 88.00,
+    fuelPriceConfig: 102.00,
+    electricityPriceConfig: 10.00,
     privacySettings: {
       displayName: 'Alex (Eco Driver)',
       hideProfile: false,
@@ -159,10 +161,20 @@ async function seed() {
   const civicICE = await Vehicle.create({
     userId: demoUser._id,
     make: 'Honda',
-    model: 'Civic EX',
-    year: 2021,
-    fuelType: 'ICE',
-    fuelEfficiency: 7.2,
+    model: 'City i-VTEC Petrol',
+    year: 2022,
+    fuelType: 'PETROL',
+    fuelEfficiency: 6.2,
+    defaultVehicle: false
+  });
+
+  const cretaDiesel = await Vehicle.create({
+    userId: demoUser._id,
+    make: 'Hyundai',
+    model: 'Creta CRDi Diesel',
+    year: 2023,
+    fuelType: 'DIESEL',
+    fuelEfficiency: 5.4,
     defaultVehicle: false
   });
 

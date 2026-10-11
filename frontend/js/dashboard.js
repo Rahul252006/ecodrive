@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
         <div class="card card-specular card-hover">
           <p class="score-label">Estimated Fuel Cost</p>
-          <h2 style="font-size:2rem; margin-bottom:0.4rem; color:#ffffff;">${Utils.formatCurrency(s.totalCost)}</h2>
+          <h2 style="font-size:2rem; margin-bottom:0.4rem; color:#ffffff;">${Utils.formatCurrency(s.totalCost, s.totalFuelL)}</h2>
           ${Utils.getProvenanceBadge('calculated')}
         </div>
         <div class="card card-specular card-hover">
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                       <strong style="font-family:var(--font-mono);">${t.ecoScore}</strong>
                     </div>
                   </td>
-                  <td class="mono-metric">${Utils.formatCurrency(t.fuelCost)}</td>
+                  <td class="mono-metric">${Utils.formatCurrency(t.fuelCost, t.fuelConsumedL)}</td>
                   <td><a href="trip-details.html?id=${t._id}" class="btn btn-secondary btn-sm" style="padding:0.35rem 0.8rem;">Details</a></td>
                 </tr>
               `).join('')}

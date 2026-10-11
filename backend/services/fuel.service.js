@@ -3,9 +3,24 @@ const { DEFAULT_PRICES, VEHICLE_TYPES } = require('../utils/constants');
 function calculateFuelAndEnergy(trip, vehicle, userSettings = {}) {
   const distanceKm = Number(trip.distanceKm) || 0;
   const isEv = vehicle && vehicle.fuelType === VEHICLE_TYPES.EV;
+  const isDiesel = vehicle && vehicle.fuelType === VEHICLE_TYPES.DIESEL;
   
-  const fuelPrice = userSettings.fuelPriceInr ?? userSettings.fuelPriceUsd ?? DEFAULT_PRICES.FUEL_INR_PER_L;
-  const electricityPrice = userSettings.electricityPriceInr ?? userSettings.electricityPriceUsd ?? DEFAULT_PRICES.ELECTRICITY_INR_PER_KWH;
+  // Resolve accurate fuel & electricity prices (Petrol, Diesel, EV)
+  let fuelPrice;
+  if (userSettings.fuelPriceUsd !== undefined && userSettings.fuelPriceUsd !== null) {
+    fuelPrice = Number(userSettings.fuelPriceUsd);
+  } else if (isDiesel) {
+    fuelPrice = userSettings.dieselPriceConfig ?? userSettings.dieselPriceInr ?? DEFAULT_PRICES.DIESEL_INR_PER_L;
+  } else {
+    fuelPrice = userSettings.petrolPriceConfig ?? userSettings.petrolPriceInr ?? userSettings.fuelPriceConfig ?? DEFAULT_PRICES.PETROL_INR_PER_L;
+  }
+
+  let electricityPrice;
+  if (userSettings.electricityPriceUsd !== undefined && userSettings.electricityPriceUsd !== null) {
+    electricityPrice = Number(userSettings.electricityPriceUsd);
+  } else {
+    electricityPrice = userSettings.electricityPriceConfig ?? userSettings.electricityPriceInr ?? DEFAULT_PRICES.ELECTRICITY_INR_PER_KWH;
+  }
 
   let fuelConsumedL = trip.fuelConsumedL !== undefined && trip.fuelConsumedL !== null ? Number(trip.fuelConsumedL) : null;
   let energyConsumedKwh = trip.energyConsumedKwh !== undefined && trip.energyConsumedKwh !== null ? Number(trip.energyConsumedKwh) : null;
@@ -51,6 +66,7 @@ function calculateFuelAndEnergy(trip, vehicle, userSettings = {}) {
     energyConsumedKwh,
     fuelCost,
     efficiencyText,
+    fuelTypeUsed: isEv ? 'EV' : isDiesel ? 'DIESEL' : 'PETROL',
     unitPriceUsed: isEv ? electricityPrice : fuelPrice,
     isEstimate: (isEv && trip.energyConsumedKwh === undefined) || (!isEv && trip.fuelConsumedL === undefined)
   };

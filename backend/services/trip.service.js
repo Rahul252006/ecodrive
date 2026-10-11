@@ -39,10 +39,12 @@ async function createTrip(userId, tripData) {
     }
   }
 
-  // 1. Calculate Fuel & Energy
+  // 1. Calculate Fuel & Energy (Petrol, Diesel, EV)
   const userSettings = {
-    fuelPriceUsd: user.fuelPriceConfig,
-    electricityPriceUsd: user.electricityPriceConfig
+    petrolPriceConfig: user.petrolPriceConfig,
+    dieselPriceConfig: user.dieselPriceConfig,
+    fuelPriceConfig: user.fuelPriceConfig,
+    electricityPriceConfig: user.electricityPriceConfig
   };
   const fuelAndEnergy = calculateFuelAndEnergy(tripData, vehicle, userSettings);
 

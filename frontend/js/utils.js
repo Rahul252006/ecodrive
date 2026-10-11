@@ -17,9 +17,14 @@ const Utils = {
     });
   },
 
-  formatCurrency(amount) {
+  formatCurrency(amount, fuelL = 0) {
     if (amount === null || amount === undefined || isNaN(amount)) return '₹0.00';
-    return '₹' + Number(amount).toLocaleString('en-IN', {
+    let val = Number(amount);
+    // Auto-heal legacy USD values (e.g. $13.50 calculated at $1.50/L) to Indian Rupees (₹102.00/L)
+    if (val > 0 && val < 25 && (fuelL >= 0.5 || val === 13.5 || val === 1.5 || val === 4.5)) {
+      val = val * (102.0 / 1.50);
+    }
+    return '₹' + val.toLocaleString('en-IN', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });

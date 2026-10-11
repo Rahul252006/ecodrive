@@ -27,6 +27,7 @@ let liveFuelConsumedL = 0;
 let liveRouteIndex = 0;
 
 const FUEL_PRICE_INR_PER_L = 102.0;
+const DIESEL_PRICE_INR_PER_L = 88.0;
 const ELECTRICITY_PRICE_INR_PER_KWH = 10.0;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -428,7 +429,10 @@ function updateEstimatedCost() {
 
   // 1. Standard Catalog Estimated Consumption
   const standardConsumption = Number(((distKm * effRating) / 100).toFixed(2));
-  const unitPriceInr = isEv ? ELECTRICITY_PRICE_INR_PER_KWH : FUEL_PRICE_INR_PER_L;
+  const isDiesel = currentVehicle?.fuelType === 'DIESEL';
+  const unitPriceInr = isEv 
+    ? ELECTRICITY_PRICE_INR_PER_KWH 
+    : (isDiesel ? DIESEL_PRICE_INR_PER_L : FUEL_PRICE_INR_PER_L);
   const standardCostInr = Number((standardConsumption * unitPriceInr).toFixed(2));
 
   // Update display widgets
@@ -653,7 +657,8 @@ function startLiveTrip() {
     liveFuelConsumedL = Number((liveTraveledKm * ratePerKm * (1 + 0.15 * liveHardAccels + 0.1 * liveHardBrakes)).toFixed(2));
 
     // Accumulate Fuel Cost in Indian Rupees (₹)
-    const unitPrice = isEv ? ELECTRICITY_PRICE_INR_PER_KWH : FUEL_PRICE_INR_PER_L;
+    const isDiesel = currentVehicle?.fuelType === 'DIESEL';
+    const unitPrice = isEv ? ELECTRICITY_PRICE_INR_PER_KWH : (isDiesel ? DIESEL_PRICE_INR_PER_L : FUEL_PRICE_INR_PER_L);
     const liveCostInr = liveFuelConsumedL * unitPrice;
 
     // Update Live Gauges in Cockpit

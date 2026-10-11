@@ -108,7 +108,7 @@ function renderTripsRows(trips) {
             <strong style="font-family:var(--font-mono);">${t.ecoScore}</strong>
           </div>
         </td>
-        <td class="mono-metric">${Utils.formatCurrency(t.fuelCost)}</td>
+        <td class="mono-metric">${Utils.formatCurrency(t.fuelCost, t.fuelConsumedL)}</td>
         <td class="mono-metric">
           ${t.vehicleId?.fuelType === 'EV' 
             ? `<span style="color:#10b981; font-weight:700;">0.0 kg</span> <span style="font-size:0.7rem; color:#64748b;">(ZEV)</span>` 

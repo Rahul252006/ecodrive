@@ -15,8 +15,10 @@ const UserSchema = new mongoose.Schema({
     hideProfile: { type: Boolean, default: false },
     optOutLeaderboard: { type: Boolean, default: false }
   },
-  fuelPriceConfig: { type: Number, default: 1.50 },
-  electricityPriceConfig: { type: Number, default: 0.15 }
+  petrolPriceConfig: { type: Number, default: 102.00 },
+  dieselPriceConfig: { type: Number, default: 88.00 },
+  fuelPriceConfig: { type: Number, default: 102.00 },
+  electricityPriceConfig: { type: Number, default: 10.00 }
 }, {
   timestamps: true
 });

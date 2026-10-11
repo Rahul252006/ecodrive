@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div style="background:#07070c; border:1px solid rgba(52,211,153,0.3); padding:1.1rem; border-radius:14px; text-align:center;">
             <div style="font-size:0.74rem; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;">ML Baseline Cost (₹)</div>
             <div style="font-size:1.7rem; font-weight:800; color:#34d399; margin-top:0.25rem;">
-              ${Utils.formatCurrency(trip.mlPredictedCost || (Number(trip.mlPredictedFuelL || trip.fuelConsumedL || 0) * 102.0))}
+              ${Utils.formatCurrency(trip.mlPredictedCost || (Number(trip.mlPredictedFuelL || trip.fuelConsumedL || 0) * (vehicle?.fuelType === 'DIESEL' ? 88.0 : 102.0)))}
             </div>
           </div>
         </div>
