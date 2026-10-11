@@ -13,70 +13,79 @@ This document details the architectural topology, design patterns, technology ch
 EcoDrive utilizes a **Layered Modular N-Tier Architecture** emphasizing separation of concerns, high throughput telemetry processing, and decoupled algorithmic domain engines.
 
 ```mermaid
-graph TD
-    subgraph Client Tier [Frontend Client - Vanilla Web Stack]
-        UI[HTML5 / CSS3 Glassmorphism UI]
-        JS_CTRL[Page Controllers: dashboard.js, trips.js, add-trip.js]
-        CAN_SIM[CAN-bus / OBD-II Telemetry Simulator]
-        CHARTS[Chart.js 4.4 Visualizations]
-        MAPS[Leaflet.js + OpenStreetMap Engine]
-        API_CLIENT[API Client: Fetch + JWT Interceptors]
+flowchart TB
+    %% =======================================================
+    %% STYLING DEFINITIONS FOR MAXIMUM LEGIBILITY
+    %% =======================================================
+    classDef clientStyle fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#f8fafc;
+    classDef edgeStyle fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef serverStyle fill:#1e293b,stroke:#a855f7,stroke-width:2px,color:#f8fafc;
+    classDef engineStyle fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#f8fafc;
+    classDef dataStyle fill:#451a03,stroke:#fb923c,stroke-width:2px,color:#f8fafc;
+
+    subgraph TIER1 ["1. CLIENT TIER (Browser Vanilla Web Stack)"]
+        direction LR
+        UI["HTML5 & CSS3 Glassmorphism UI"]:::clientStyle
+        SIM["CAN-Bus / OBD-II Simulator"]:::clientStyle
+        PAGES["Page Controllers (dashboard, trips, add-trip)"]:::clientStyle
+        VIZ["Visualizations (Chart.js & Leaflet.js)"]:::clientStyle
+        API_CLIENT["API Client Module (api.js + JWT Auth)"]:::clientStyle
     end
 
-    subgraph Gateway [Edge & Reverse Proxy]
-        EDGE[Static CDN / Vercel Edge / Reverse Proxy]
+    subgraph TIER2 ["2. GATEWAY & EDGE PROXY TIER"]
+        direction LR
+        CDN["Static CDN (Vercel Edge Network)"]:::edgeStyle
+        GATEWAY["Reverse Proxy Gateway (Render Cloud)"]:::edgeStyle
     end
 
-    subgraph Server Tier [Backend Server - Node.js & Express]
-        HTTP_SEC[Helmet + CORS + Express Rate Limiter]
-        ROUTER[Express Route Dispatcher /api/*]
-        AUTH_MID[JWT Authentication Middleware]
-        VALID_MID[Input Validation Middleware]
-        CTRL[Controller Layer: Trip, User, Vehicle, Analytics, etc.]
+    subgraph TIER3 ["3. SERVER & APPLICATION TIER (Node.js & Express)"]
+        direction TB
+        SECURITY["Security Stack (Helmet + CORS + Rate Limiter)"]:::serverStyle
+        ROUTER["Express REST Router (/api/* endpoints)"]:::serverStyle
+        AUTH_MID["JWT Authentication & Validation Middleware"]:::serverStyle
+        CTRL["Controller Layer (Trip, User, Vehicle, Analytics)"]:::serverStyle
     end
 
-    subgraph Domain Tier [Core Business & Algorithmic Engines]
-        ECO_ENG[EcoScore Evaluation Engine]
-        FUEL_ENG[Fuel & Energy Calculation Engine]
-        EMISS_ENG[Emissions & Carbon Engine]
-        COACH_ENG[Dynamic Driver Coaching Engine]
-        CHALL_ENG[Gamification & Challenge Engine]
-        ML_ENG[Machine Learning Anomaly Engine]
-        REP_ENG[Weekly Reporting Engine]
+    subgraph TIER4 ["4. DOMAIN & COMPUTATIONAL ENGINES"]
+        direction TB
+        ECO_ENG["EcoScore Scoring Engine (6 Weighted Factors)"]:::engineStyle
+        FUEL_ENG["Fuel & Energy Engine (Petrol ₹102, Diesel ₹88, EV ₹10)"]:::engineStyle
+        EMISS_ENG["Carbon Emissions Engine (TTW & WTW + Trees Saved)"]:::engineStyle
+        COACH_ENG["Dynamic Coaching Engine (Behavioral Diagnostic)"]:::engineStyle
+        ML_ENG["ML Inference Engine (VED Trained Gradient Boosting)"]:::engineStyle
+        CHALL_ENG["Gamification Engine (Challenges, XP & Leaderboard)"]:::engineStyle
     end
 
-    subgraph Data Tier [Persistence Layer - MongoDB]
-        MONGO[(MongoDB Database)]
-        MODELS[Mongoose Schemas: User, Vehicle, Trip, Challenge, Achievement]
+    subgraph TIER5 ["5. PERSISTENCE LAYER (MongoDB Database Cluster)"]
+        direction LR
+        MONGO_DB[("MongoDB Database Replica Cluster")]:::dataStyle
+        MODELS["Mongoose Schemas (User, Vehicle, Trip, Challenge, Achievement)"]:::dataStyle
     end
 
-    UI --> JS_CTRL
-    CAN_SIM --> JS_CTRL
-    JS_CTRL --> API_CLIENT
-    JS_CTRL --> CHARTS
-    JS_CTRL --> MAPS
+    UI --> PAGES
+    SIM --> PAGES
+    PAGES --> VIZ
+    PAGES --> API_CLIENT
 
-    API_CLIENT -->|HTTP REST / JSON / JWT| EDGE
-    EDGE --> HTTP_SEC
-    HTTP_SEC --> ROUTER
+    API_CLIENT -->|"HTTPS / REST Request (JWT Token)"| CDN
+    CDN --> GATEWAY
+    GATEWAY --> SECURITY
+    SECURITY --> ROUTER
     ROUTER --> AUTH_MID
-    AUTH_MID --> VALID_MID
-    VALID_MID --> CTRL
+    AUTH_MID --> CTRL
 
     CTRL --> ECO_ENG
     CTRL --> FUEL_ENG
     CTRL --> EMISS_ENG
     CTRL --> COACH_ENG
-    CTRL --> CHALL_ENG
     CTRL --> ML_ENG
-    CTRL --> REP_ENG
+    CTRL --> CHALL_ENG
 
+    CTRL --> MODELS
     ECO_ENG --> MODELS
     FUEL_ENG --> MODELS
-    EMISS_ENG --> MODELS
     CHALL_ENG --> MODELS
-    CTRL --> MODELS
-    MODELS --> MONGO
+    MODELS <-->|"Mongoose Read / Write Operations"| MONGO_DB
 ```
 
 ---
